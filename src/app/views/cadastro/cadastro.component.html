@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 d-none d-md-block" id="capa"></div>
+    <div class="col-md-6">
+      <div class="row justify-content-center align-items-center" style="height: 100vh">
+        <div class="col-8">
+          <p-messages class="custom-messages" [(value)]="message" [enableService]="false" [closable]="false"></p-messages>
+          <div class="card">
+            <div class="card-body">
+              <form id="loginForm" [formGroup]="formularioCadastro">
+                <h3 class="text-center mb-3">Cadastre-se</h3>
+                <br />
+                <div class="form-group">
+                  <input type="email" class="form-control rounded-pill" id="email" placeholder="E-mail" formControlName="email" required />
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="password" class="form-control rounded-pill" id="password" placeholder="Senha" formControlName="password"
+                      required />
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="far fa-eye-slash" id="togglePassword" (click)="togglePasswordVisibility()"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control rounded-pill" id="username" placeholder="Nome de usuário" formControlName="username"
+                    required />
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control rounded-pill" id="favoriteActivity"
+                    placeholder="Atividade favorita" formControlName="favoriteactivity" required  /> 
+                </div>
+                <button type="submit" class="btn btn-block rounded-pill" (click)="cadastrar()">
+                  Cadastrar
+                </button>
+                <div class="sign-up" id="small">
+                  Já tem cadastro?
+                  <a (click)=redirectToLogin()>Ir para login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

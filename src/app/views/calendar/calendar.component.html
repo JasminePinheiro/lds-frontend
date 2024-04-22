@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="title">
+        <h3>Calendário</h3>
+    </div>
+
+    <!-- calendário   -->
+    <div class='demo-app'>
+        <div class='demo-app-main'>
+            <full-calendar *ngIf='calendarVisible()' [options]='calendarOptions()'>
+                <ng-template #eventContent let-arg>
+                    <b>{{ arg.timeText }}</b>
+                    <i>{{ arg.event.title }}</i>
+                </ng-template>
+            </full-calendar>
+        </div>
+    </div>
+
+    <div class="cadatrar" style="display: none;">
+        <div class="cadastrar-content">
+            <h3>Adicionar evento</h3>
+            
+            <div class="input-calendar">
+                <label>Nome do evento:</label>
+                <input type="text">
+            </div>
+
+            <div class="input-calendar">
+                <label>Data de início:</label>
+                <input type="date" name="data" id="id">
+            </div>
+
+            <div class="input-calendar">
+                <label>Data de fim:</label>
+                <input type="date" name="data" id="id">
+            </div>
+
+            <div class="input-calendar">
+                <label>Horário de início:</label>
+                <input type="time" name="data" id="id">
+            </div>
+
+            <div class="input-calendar">
+                <label>Horário de início:</label>
+                <input type="time" name="data" id="id">
+            </div>
+
+            <div class="btn mt-2">
+                <button>Fechar</button>
+                <button>Adicionar</button>
+            </div>
+        </div>
+    </div>
+
+</div>

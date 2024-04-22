@@ -1,0 +1,62 @@
+#capa {
+    background-image: url("/../assets/capa.png");
+}
+
+.card {
+    border: none;
+}
+
+#loginForm {
+    padding: 30px;
+}
+
+.sign-up {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.form-control::placeholder {
+    text-align: center;
+    font-weight: 500;
+}
+
+.btn {
+    border: none;
+    margin-top: 30px;
+    background-color: #0c5663;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: #52808c;
+}
+
+a {
+    color: #0c5663;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    color: #0a4954;
+}
+
+h3 {
+    font-size: 2.5rem;
+    font-weight: 400;
+}
+
+#small {
+    font-size: 0.8rem;
+}
+
+.input-group-text {
+    border: none;
+    background-color: transparent;
+}
+
+// alert
+.custom-messages {
+    padding: 20px; 
+}
+
