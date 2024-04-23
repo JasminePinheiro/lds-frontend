@@ -1,12 +1,33 @@
-
-.form-control, .btn {
+.form-control,
+.btn {
     border-radius: 20px;
-  }
+}
 
 .btn {
-margin-top: 20px;
-background-color: #0c5663;
-border: none;
+    margin-top: 20px;
+    background-color: #0c5663;
+    border: none;
+}
+
+.btn-fechar {
+    margin-top: 20px;
+    background-color: #d20000;
+    border: none;
+    padding: 7px;
+    color: #fff;
+    width: 4rem;
+    border-radius: 5px;
+}
+
+.btn-salvar {
+    margin-top: 20px;
+    background-color: #059d12;
+    border: none;
+    padding: 7px;
+    color: #fff;
+    width: 4rem;
+    border-radius: 5px;
+
 }
 
 p {

@@ -2,12 +2,13 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-6">
+      <p-messages class="custom-messages" [(value)]="message" [enableService]="false" [closable]="false"></p-messages>
       <h2>Editar Cadastro</h2>
       <form id="editarCadastro" [formGroup]="formEdit">
 
         <div class="mb-3">
           <label for="username" class="form-label">Nome do Usuário</label>
-          <input type="text" class="form-control"  id="username" formControlName="username">
+          <input type="text" class="form-control" id="username" formControlName="username">
         </div>
 
         <div class="mb-3">
@@ -20,9 +21,33 @@
 
       <hr>
 
-      <p><a href="" class="text-danger" (click)="confirmarExclusaoConta()">Excluir conta</a>
+      <p class="text-danger" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Excluir conta
         <i id="deleteIcon" class="fas fa-trash-alt text-danger" style="margin-left: 2%; cursor: pointer"></i>
       </p>
+
+      <!-- Button trigger modal -->
+      <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+      </button> -->
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir conta</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p style="font-size: 12pt;">Tem certeza que deseja excluir a conta?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn-salvar" (click)="excluirConta()" data-bs-dismiss="modal">Sim</button>
+              <button type="button" class="btn-fechar" data-bs-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

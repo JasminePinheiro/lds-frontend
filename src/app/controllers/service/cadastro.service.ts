@@ -30,14 +30,24 @@ export class CadastroService {
   }
 
 
-  editarCadastro( email: any,  favoriteactivity: string, username: string): Observable<any> {
+  editarCadastro(email: any, favoriteactivity: string, username: string): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    const body = JSON.stringify({favoriteactivity, username});
+    const body = JSON.stringify({ favoriteactivity, username });
 
     return this._http.patch<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, body, { headers });
   }
+
+  deletarCadastro(email: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this._http.delete<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, { headers });
+
+  }
+
 }
