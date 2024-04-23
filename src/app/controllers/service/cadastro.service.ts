@@ -15,8 +15,29 @@ export class CadastroService {
       'Content-Type': 'application/json'
     });
 
-    const body = JSON.stringify({ email, password, favoriteactivity, username,});
+    const body = JSON.stringify({ email, password, favoriteactivity, username });
 
     return this._http.post<any>('https://lds-backend.vercel.app/api/usuarios', body, { headers });
+  }
+
+
+  obterUsuarioLogado(email: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this._http.get<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, { headers });
+  }
+
+
+  editarCadastro( email: any,  favoriteactivity: string, username: string): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const body = JSON.stringify({favoriteactivity, username});
+
+    return this._http.patch<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, body, { headers });
   }
 }
