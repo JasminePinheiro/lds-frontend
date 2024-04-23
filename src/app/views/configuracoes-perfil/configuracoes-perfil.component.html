@@ -1,28 +1,28 @@
+<!-- REVISAR CÓDIGO -->
 <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-6">
-        <h2>Editar</h2>
-        <form>
-          <div class="mb-3">
-            <label for="username" class="form-label">Nome de Usuário</label>
-            <input type="text" class="form-control" id="username">
-          </div>
-          <div class="mb-3">
-            <label for="activity" class="form-label">Atividade Favorita</label>
-            <input type="text" class="form-control" id="activity">
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Salvar</button>
-        </form>
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h2>Editar Cadastro</h2>
+      <form id="editarCadastro" [formGroup]="formEdit">
 
-        <hr>
+        <div class="mb-3">
+          <label for="username" class="form-label">Nome do Usuário</label>
+          <input type="text" class="form-control"  id="username" formControlName="username">
+        </div>
 
-        <p><a href="" class="text-danger" (click)="confirmarExclusaoConta()">Excluir conta</a>
-            <i
-            id="deleteIcon"
-            class="fas fa-trash-alt text-danger"
-            style="margin-left: 2%; cursor: pointer"
-          ></i>
-        </p>
-      </div>
+        <div class="mb-3">
+          <label for="activity" class="form-label">Atividade Favorita</label>
+          <input type="text" class="form-control" id="activity" formControlName="favoriteactivity">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" (click)="editarFormulario()">Salvar</button>
+      </form>
+
+      <hr>
+
+      <p><a href="" class="text-danger" (click)="confirmarExclusaoConta()">Excluir conta</a>
+        <i id="deleteIcon" class="fas fa-trash-alt text-danger" style="margin-left: 2%; cursor: pointer"></i>
+      </p>
     </div>
   </div>
+</div>

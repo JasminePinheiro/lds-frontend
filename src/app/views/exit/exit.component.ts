@@ -22,6 +22,7 @@ export class ExitComponent {
   }
 
   redirectToLogin() {
+    localStorage.clear();
     this.router.navigate(['']);
   }
   

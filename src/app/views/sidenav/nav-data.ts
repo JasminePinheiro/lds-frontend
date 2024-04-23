@@ -25,7 +25,7 @@ export const navbarData = [
         label: 'Projetos'
     },
     {
-        routerLink: 'configurações',
+        routerLink: 'configuracoes',
         icon: 'bx bx-cog',
         label: 'Configurações'
     },

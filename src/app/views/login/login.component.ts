@@ -39,7 +39,7 @@ export class LoginComponent {
       setTimeout(() => {
         this.redirectToDashboard()
       }, 2100);
-
+      localStorage.setItem('email', email)
     },
       error => {
 
