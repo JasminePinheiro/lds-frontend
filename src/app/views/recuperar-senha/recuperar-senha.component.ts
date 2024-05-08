@@ -1,123 +1,100 @@
 import { Component } from '@angular/core';
+import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Message, MessageService } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { CadastroService } from '../../controllers/service/cadastro.service';
 
 @Component({
   selector: 'app-recuperar-senha',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, FormsModule, MessagesModule],
   templateUrl: './recuperar-senha.component.html',
   styleUrl: './recuperar-senha.component.scss'
 })
 export class RecuperarSenhaComponent {
+  formulario: FormGroup;
+  message: Message[] = [];
+  messageService: any;
 
-  // document.getElementById("recoveryForm")
-  // .addEventListener("submit", async function (event) {
-  //   event.preventDefault();
-  //   const email = (document.getElementById(
-  //     "recoveryEmail"
-  //   ) as HTMLInputElement).value;
-  //   const favoriteActivityInput = (document.getElementById(
-  //     "favoriteActivity"
-  //   ) as HTMLInputElement).value;
-  //   const newPasswordField = document.getElementById(
-  //     "newPasswordField"
-  //   ) as HTMLDivElement;
-  //   const newPassword = (document.getElementById(
-  //     "newPassword"
-  //   ) as HTMLInputElement).value;
-  //   const emailError = document.getElementById("emailError") as HTMLDivElement;
-  //   const activityError = document.getElementById(
-  //     "activityError"
-  //   ) as HTMLDivElement;
-  //   const passwordError = document.getElementById(
-  //     "passwordError"
-  //   ) as HTMLDivElement;
+  constructor(private router: Router, private cadastroService: CadastroService) {
 
-  //   emailError.textContent = "";
-  //   activityError.textContent = "";
-  //   passwordError.textContent = "";
+    this.formulario = new FormGroup({
+      email: new FormControl("")
+    })
 
-  //   if (!email) {
-  //     emailError.textContent = "Por favor, preencha o e-mail.";
-  //     return;
-  //   }
+  }
 
-  //   try {
-  //     const response = await fetch(`http://localhost:3000/users/${email}`, {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
+  ngOnInit() { }
 
-  //     if (response.ok) {
-  //       const userData = await response.json();
-  //       console.log("Dados do usuário:", userData);
+  sendEmail() {
+    const email = this.formulario.get('email')?.value
 
-  //       if (!userData || !userData.favoriteActivity) {
-  //         emailError.textContent = "Este e-mail não está cadastrado.";
-  //         return;
-  //       }
+    const novaSenha = this.gerarNovaSenha();
 
-  //       document.getElementById("favoriteActivityField").style.display =
-  //         "block";
+    this.cadastroService.obterUsuarioLogado(email).subscribe((usuario: any) => {
+      
+      this.cadastroService.atualizarSenha(email, novaSenha).subscribe(() => {
 
-  //       if (favoriteActivityInput) {
-  //         if (userData.favoriteActivity === favoriteActivityInput) {
-  //           newPasswordField.style.display = "block";
+        // this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Um e-mail com instruções para recuperação de senha foi enviado.' });
 
-  //           if (!newPassword) {
-  //             passwordError.textContent =
-  //               "Por favor, preencha o campo Nova Senha.";
-  //             return;
-  //           }
+        const Email: any = (window as any).Email;
 
-  //           if (newPassword.length < 8 || newPassword.length > 16) {
-  //             alert("A senha deve ter entre 8 e 16 caracteres.");
-  //             return;
-  //           }
+        const bodyForm = `
+      <body style="font-family: Arial, Helvetica, sans-serif; margin-left: 14rem; font-size: 1rem">
+      <div style="width: 500px; height: 750px;">
+          <header style="background-color: #C4D6D9; padding: 2px;">
+              <h1 style="color: #0C5663; text-align: center;">TaskZen</h1>
+          </header>
+          <section>
+              <h4>Prezado ${usuario.username},</h4>
+              <p>Recentemente você solicitou a recuperação de senha para sua conta em TaskZen. Estamos aqui para ajudar
+                  você a
+                  recuperar o acesso à sua conta.</p>
+              <div>
+                  <p style="font-weight: bold;">Sua senha foi alterada com <span
+                          style="color: rgb(16, 194, 0);">sucesso!</span></p>
+                  <p>Por favor, insira sua nova senha <span style="font-weight: bold;">${novaSenha}</span> na
+                      Página de Login do Sistema. Após o login, você poderá acessar as
+                      configurações para editar sua senha.</p>
+              </div>
+  
+              <div>
+                  <p>Atenciosamente, <br> Equipe TaskZen.</p>
+              </div>
+  
+          </section>
+          <footer style="background-color: #ededed; padding: 10px; text-align: center;">
+              <p>Em caso de dúvidas, fique a vontade para nos contatar. <br><br> (11) 4002-8922 </p>
+          </footer>
+      </div>
+  </body>
+      Nova senha: ${novaSenha}
+      `
 
-  //           try {
-  //             const putResponse = await fetch(
-  //               `http://localhost:3000/users/${email}`,
-  //               {
-  //                 method: "PUT",
-  //                 headers: {
-  //                   "Content-Type": "application/json",
-  //                 },
-  //                 body: JSON.stringify({
-  //                   ...userData,
-  //                   password: newPassword,
-  //                 }),
-  //               }
-  //             );
+        Email.send({
+          SecureToken: "66ccb91f-8c69-409b-8dd0-e74c8cd7bb2e",
+          To: email,
+          From: "taskzenlds@gmail.com",
+          Subject: "Recuperação de senha",
+          Body: bodyForm
+        }).then(
+          (message: any) => alert("A senha foi alterada com sucesso. Uma nova senha foi enviada para o seu e-mail.")
+        ).catch(
+          (error: any) => console.log("Erro ao enviar email", error)
+        );
 
-  //             if (putResponse.ok) {
-  //               console.log("Senha atualizada com sucesso.");
-  //               window.location.href = "../login/";
-  //             } else {
-  //               console.error("Erro ao atualizar a senha.");
-  //             }
-  //           } catch (error) {
-  //             console.error(
-  //               "Erro ao enviar a solicitação PUT:",
-  //               (error as Error).message
-  //             );
-  //           }
-  //         } else {
-  //           activityError.textContent =
-  //             "A atividade favorita não corresponde ao usuário.";
-  //           newPasswordField.style.display = "none";
-  //         }
-  //       }
-  //     } else {
-  //       emailError.textContent =
-  //         "Não foi possível encontrar um usuário com esse e-mail.";
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Erro ao enviar dados para a API:",
-  //       (error as Error).message
-  //     );
-  //   }
-  // });
+      }
+      )
+    })
+  }
+
+  private gerarNovaSenha(): string {
+    return 'novaSenha123'
+  }
+
+  redirectToLogin() {
+    this.router.navigate([""]);
+  }
+
 }
