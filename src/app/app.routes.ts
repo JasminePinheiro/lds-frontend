@@ -19,6 +19,8 @@ export const routes: Routes = [
     // { path: 'recuperacao', component: RecuperarSenhaComponent, pathMatch: 'full' },
     // { path: 'editarperfil', component: ConfiguracoesPerfilComponent, pathMatch: 'full' },
     { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
+    { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
+    
     {
         path: 'entrada-sistema', component: EntradaSistemaComponent, children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { navbarData } from './nav-data';
 import { CommonModule, PlatformLocation } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CadastroService } from '../../controllers/service/cadastro.service';
 
 interface SideNavToggle {
   screenWidth: number;
@@ -16,13 +17,16 @@ interface SideNavToggle {
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent implements OnInit {
-  constructor(private platformLocation: PlatformLocation) { }
+  constructor(private platformLocation: PlatformLocation, private cadastroService: CadastroService) { }
+  usuarioLogado!: string
 
   ngOnInit(): void {
     if (this.platformLocation instanceof PlatformLocation) {
       this.screenWidth = window.innerWidth;
-    }
+    };
+    this.obterUsuario();
   }
+
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter()
 
   collapsed = true;
@@ -37,6 +41,14 @@ export class SidenavComponent implements OnInit {
   closeSidenav(): void {
     this.collapsed = false;
     this.onToggleSideNav.emit({ collapsed: this.collapsed, screenWidth: this.screenWidth });
+  }
 
+  obterUsuario() {
+    if (typeof localStorage !== 'undefined') {
+      let email = localStorage.getItem("email");
+      this.cadastroService.obterUsuarioLogado(email).subscribe((usuario: any) => {
+        this.usuarioLogado = usuario.username
+      })
+    }
   }
 }

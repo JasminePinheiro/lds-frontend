@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ObservedValueOf } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +30,17 @@ export class CadastroService {
   }
 
 
-  editarCadastro(email: any, favoriteactivity: string, username: string): Observable<any> {
+  editarCadastro(email: any, favoriteactivity: string, username: string, password: string): Observable<any> {
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    const body = JSON.stringify({ favoriteactivity, username });
+    const body = JSON.stringify({ favoriteactivity, username, password});
 
     return this._http.patch<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, body, { headers });
   }
+
 
   deletarCadastro(email: any): Observable<any> {
     const headers = new HttpHeaders({
@@ -47,6 +48,18 @@ export class CadastroService {
     });
 
     return this._http.delete<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, { headers });
+  }
+
+
+  atualizarSenha(email: string, newPassword: string): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const body = JSON.stringify({ password: newPassword });
+    
+    return this._http.patch<any>(`https://lds-backend.vercel.app/api/usuarios/${email}`, body, { headers });
 
   }
 

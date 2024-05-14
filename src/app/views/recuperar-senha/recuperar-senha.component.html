@@ -1,58 +1,30 @@
-<!-- REVISAR CÓDIGO -->
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 d-none d-md-block" id="capa"></div>
-      <div class="col-md-6">
-        <div class="row justify-content-center align-items-center" style="height: 100vh">
-          <div class="col-8">
-            <div class="card">
-              <div class="card-body">
-                <form id="recoveryForm" class="mt-3">
-                  <h3 class="text-center mb-5">Recuperar Senha</h3>
-                  <div class="form-group">
-                    <input
-                      type="email"
-                      class="form-control rounded-pill"
-                      id="recoveryEmail"
-                      placeholder="E-mail"
-                      required
-                    />
-                    <small id="emailError" class="text-danger"></small>
-                  </div>
-                  <div
-                    class="form-group"
-                    id="favoriteActivityField"
-                    style="display: none"
-                  >
-                    <input
-                      type="text"
-                      class="form-control rounded-pill"
-                      id="favoriteActivity"
-                      placeholder="Atividade Favorita"
-                    />
-                    <small id="activityError" class="text-danger"></small>
-                  </div>
-                  <div
-                    class="form-group"
-                    id="newPasswordField"
-                    style="display: none"
-                  >
-                    <input
-                      type="password"
-                      class="form-control rounded-pill"
-                      id="newPassword"
-                      placeholder="Nova Senha"
-                    />
-                    <small id="passwordError" class="text-danger"></small>
-                  </div>
-                  <button type="submit" class="btn btn-primary btn-block rounded-pill w-100">
-                    Recuperar Senha
-                  </button>
-                </form>
-              </div>
+  <div class="row">
+    <div class="col-md-6 d-none d-md-block" id="capa"></div>
+    <div class="col-md-6">
+      <div class="row justify-content-center align-items-center" style="height: 100vh">
+        <div class="col-8">
+          <div class="card">
+            <div class="card-body">
+              <p-messages class="custom-messages" [(value)]="message" [enableService]="false"></p-messages>
+              <h3 class="text-center mb-5">Recuperar Senha</h3>
+              <form id="recoveryForm" class="mt-3">
+                <div class="form-group" [formGroup]="formulario">
+                  <input type="email" class="form-control rounded-pill" id="recoveryEmail" placeholder="E-mail" required
+                    formControlName="email" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block rounded-pill w-100" (click)="sendEmail()">
+                  Recuperar Senha
+                </button>
+                <div class="sign-up" id="small">
+                  Fazer o login
+                  <a (click)=redirectToLogin() style="color:#0C5663; cursor: pointer;">Ir para login</a>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

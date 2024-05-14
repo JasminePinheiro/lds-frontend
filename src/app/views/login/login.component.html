@@ -4,11 +4,12 @@
         <div class="col-md-6">
             <div class="row justify-content-center align-items-center" style="height: 100vh">
                 <div class="col-8">
-                    <p-messages class="custom-messages" [(value)]="message" [enableService]="false" [closable]="false"></p-messages>
+                    <p-messages class="custom-messages" [(value)]="message" [enableService]="false"
+                        [closable]="false"></p-messages>
                     <div class="card">
                         <div class="card-body">
+                            <h3 class="text-center mb-2">Login</h3>
                             <form id="loginForm" [formGroup]="formulario">
-                                <h3 class="text-center mb-3">Login</h3>
                                 <br />
                                 <div class="form-group">
                                     <input type="text" class="form-control rounded-pill" id="email" placeholder="E-mail"
@@ -26,13 +27,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe" />
-                                    <label class="form-check-label" id="small" for="rememberMe"
-                                        style="margin-right: 6rem">Lembre de mim</label>
-                                    <a href="../recuperacao/" class="text-right" id="small">Esqueceu a senha?</a>
+                                <div class="form-group">
+                                    <a (click)="redirectToRecuperacaoSenha()" class="text-right" id="small">Esqueceu a senha?</a>
                                 </div>
-
 
                                 <button type="submit" class="btn btn-block rounded-pill" (click)="login()">
                                     Entrar
@@ -40,7 +37,7 @@
                                 <div id="errorMessage" class="text-danger text-center mt-3"></div>
                                 <div class="sign-up" id="small">
                                     Novo aqui?
-                                    <a (click)="redirectToCadastro()">Criar uma conta</a>
+                                    <a (click)="redirectToCadastro()" style="color:#0C5663" font-weight="bold">Criar uma conta</a>
                                 </div>
                             </form>
                         </div>

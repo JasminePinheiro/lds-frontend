@@ -1,41 +1,44 @@
-body {
-    font-weight: 600;
-  }
-  
-  #capa {
-    background-image: url("/../assets/capa.png");
-  }
-  
-  .card {
-    border: none;
-  }
-  
-  #loginForm {
-    padding: 30px;
-  }
-  
-  .btn {
-    margin-top: 30px;
-    background-color: #0c5663;
-    color: #fff;
-    border: none;
-  }
-  
-  .btn:hover {
-    background-color: #52808c;
-  }
-  
-  a {
-    color: #0c5663;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #0a4954;
-  }
-  
-  h3 {
-    font-size: 2.5rem;
-    font-weight: 600;
-  }
-  
+#capa {
+  background-image: url("/../assets/capa.png");
+}
+
+.card {
+  border: none;
+}
+
+#loginForm {
+  padding: 30px;
+}
+
+.btn {
+  margin-top: 30px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #52808c;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0a4954;
+}
+
+h3 {
+  font-size: 2.5rem;
+}
+
+#small {
+  font-size: 0.8rem;
+}
+
+.sign-up {
+  text-align: center;
+  margin-top: 15px;
+}

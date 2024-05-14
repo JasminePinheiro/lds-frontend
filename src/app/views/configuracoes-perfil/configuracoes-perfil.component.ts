@@ -25,6 +25,7 @@ export class ConfiguracoesPerfilComponent {
     this.formEdit = new FormGroup({
       favoriteactivity: new FormControl(""),
       username: new FormControl(""),
+      password: new FormControl("")
     })
   }
 
@@ -40,7 +41,8 @@ export class ConfiguracoesPerfilComponent {
 
         this.formEdit.patchValue({
           favoriteactivity: usuario.favoriteactivity,
-          username: usuario.username
+          username: usuario.username,
+          password: usuario.password
         })
       })
     }
@@ -50,9 +52,10 @@ export class ConfiguracoesPerfilComponent {
   editarFormulario() {
     let email = localStorage.getItem("email");
     let favoriteactivity = this.formEdit.get('favoriteactivity')?.value;
-    let username = this.formEdit.get('username')?.value;
+    let username = this.formEdit.get("username")?.value;
+    let password = this.formEdit.get("password")?.value;
 
-    this.cadastroService.editarCadastro(email, favoriteactivity, username).subscribe((usuario: any) => {
+    this.cadastroService.editarCadastro(email, favoriteactivity, username, password).subscribe((usuario: any) => {
       console.log('edicão realizado com sucesso', usuario);
 
       this.message = [
@@ -100,9 +103,30 @@ export class ConfiguracoesPerfilComponent {
     })
   }
 
+
   redirectToLogin() {
     localStorage.clear();
     this.router.navigate(['']);
+  }
+
+
+  togglePasswordVisibility() {
+    const passwordField = document.getElementById("password") as HTMLInputElement;
+    const toggleIcon = document.getElementById("togglePassword");
+
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      if (toggleIcon) {
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+      }
+    } else {
+      passwordField.type = "password";
+      if (toggleIcon) {
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+      }
+    }
   }
 
 }

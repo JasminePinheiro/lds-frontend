@@ -80,8 +80,12 @@ export class LoginComponent {
     this.router.navigate(["/entrada-sistema/dashboard"]);
   }
 
-  redirectToCadastro(){
-    this.router.navigate(["/cadastro"])
+  redirectToCadastro() {
+    this.router.navigate(["/cadastro"]);
+  }
+
+  redirectToRecuperacaoSenha() {
+    this.router.navigate(["/recuperar-senha"]);
   }
 }
 
