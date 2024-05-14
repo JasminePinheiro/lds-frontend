@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormControlName, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Message, MessageService } from 'primeng/api';
-import { MessagesModule } from 'primeng/messages';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CadastroService } from '../../controllers/service/cadastro.service';
+import { Router } from '@angular/router';
+import { MessagesModule } from 'primeng/messages';
+import { Message } from 'primeng/api';
+
 
 @Component({
   selector: 'app-recuperar-senha',
@@ -15,7 +16,6 @@ import { CadastroService } from '../../controllers/service/cadastro.service';
 export class RecuperarSenhaComponent {
   formulario: FormGroup;
   message: Message[] = [];
-  messageService: any;
 
   constructor(private router: Router, private cadastroService: CadastroService) {
 
@@ -30,13 +30,11 @@ export class RecuperarSenhaComponent {
   sendEmail() {
     const email = this.formulario.get('email')?.value
 
-    const novaSenha = this.gerarNovaSenha();
+    const novaSenha = this.gerarNovaSenha(8);
 
     this.cadastroService.obterUsuarioLogado(email).subscribe((usuario: any) => {
-      
-      this.cadastroService.atualizarSenha(email, novaSenha).subscribe(() => {
 
-        // this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Um e-mail com instruções para recuperação de senha foi enviado.' });
+      this.cadastroService.atualizarSenha(email, novaSenha).subscribe(() => {
 
         const Email: any = (window as any).Email;
 
@@ -79,18 +77,27 @@ export class RecuperarSenhaComponent {
           Subject: "Recuperação de senha",
           Body: bodyForm
         }).then(
-          (message: any) => alert("A senha foi alterada com sucesso. Uma nova senha foi enviada para o seu e-mail.")
+          (message: any) => alert("A senha foi alterada com sucesso. Uma nova senha foi enviada para o seu e-mail")
         ).catch(
-          (error: any) => console.log("Erro ao enviar email", error)
+          (error: any) => alert("Erro ao enviar e-mail")
+          
         );
-
       }
       )
     })
   }
 
-  private gerarNovaSenha(): string {
-    return 'novaSenha123'
+
+  private gerarNovaSenha(tamanho: number): string {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let novaSenha = '';
+
+    for (let i = 0; i < tamanho; i++) {
+      const indice = Math.floor(Math.random() * caracteres.length);
+      novaSenha += caracteres.charAt(indice);
+    }
+
+    return novaSenha;
   }
 
   redirectToLogin() {

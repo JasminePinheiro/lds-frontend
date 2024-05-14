@@ -1,36 +1,37 @@
 <div class="side__nav">
-    <div class="logo__container mt-2" >
+    <div class="logo__container mt-2">
         <img src="../assets/logo.png" alt="" id="img-logo">
 
         <button class="logo">
             TaskZen
         </button>
         <div class="logo__text" *ngIf="collapsed">
-            
+
         </div>
         <button class="btn__close">
             <i class="fa-regular fa-bell"></i>
         </button>
     </div>
-    
+
 
     <ul class="sidenav__nav mt-1">
-        
+
         <li class="photo__container">
             <div class="borda__photo mb-4">
                 <img style="border-radius: 50%;" src="../assets/user-icon.png" alt="Cliente">
             </div>
 
             <div class="username">
-                <span>Giovanni</span>
+                <span>{{usuarioLogado}}</span>
             </div>
         </li>
-        
-        <li class="side__nav__item"  *ngFor="let data of navData" >
-            <a class="sidenav__nav__link"  [routerLink]="data.routerLink" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+
+        <li class="side__nav__item" *ngFor="let data of navData">
+            <a class="sidenav__nav__link" [routerLink]="data.routerLink" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
                 <i class="sidenav__link__icon icone" [class]="data.icon"></i>
                 <span class="sidenav__link__text">{{data.label}}</span>
             </a>
         </li>
     </ul>
-</div> 
+</div>
