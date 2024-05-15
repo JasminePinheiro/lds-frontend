@@ -8,12 +8,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
-// import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap-icons/font/bootstrap-icons.css'; // needs additional webpack config!
 
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-
-
 
 @Component({
   selector: 'app-calendar',
@@ -24,7 +20,9 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent {
+  ngOnInit(): void { }
+
   calendarVisible = signal(true);
   calendarOptions = signal<CalendarOptions>({
     plugins: [
@@ -34,7 +32,6 @@ export class CalendarComponent implements OnInit {
       listPlugin,
       bootstrap5Plugin
     ],
-    // themeSystem: 'bootstrap5',
 
     headerToolbar: {
       left: 'prev,next today',
@@ -161,33 +158,44 @@ export class CalendarComponent implements OnInit {
 
   // ***** Modal em produção de adicionar evento *****
   handleDateSelect(selectInfo: DateSelectArg) {
-    let modal = document.querySelector(".cadatrar") as HTMLElement
+    let modal = document.querySelector(".modalAddEvent") as HTMLElement
     modal.style.display = "block"
     modal.style.position = "absolute";
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
     modal.style.zIndex = '2'
-    modal.style.backgroundColor ="#fff"
+    modal.style.backgroundColor = "#fff"
     modal.style.width = "450px"
     modal.style.height = "450px"
     modal.style.borderRadius = "10px"
 
+    const addButton = document.querySelector('.modalAddEvent button[type="submit"]') as HTMLButtonElement;
+    
+    addButton.onclick = function () {
+      const titleInput = document.querySelector('.modalAddEvent input#nameEvent') as HTMLInputElement;
+      const title = titleInput.value
+      // let title: any
+      const calendarApi = selectInfo.view.calendar;
 
-  const title = prompt('Por favor, digite o nome do evento');
-  const calendarApi = selectInfo.view.calendar;
+      console.log(calendarApi);
 
-  calendarApi.unselect(); // clear date selection
+      calendarApi.unselect(); // clear date selection
 
-  if (title) {
-    calendarApi.addEvent({
-      id: createEventId(),
-      title,
-      start: selectInfo.startStr,
-      end: selectInfo.endStr,
-      allDay: selectInfo.allDay
-    });
-  }
+      if (title) {
+        calendarApi.addEvent({
+          id: createEventId(),
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        });
+      }
+
+      titleInput.value = '';
+      modal.style.display = "none";
+    }
+  
   }
 
   // adicionar evento no calendario
@@ -220,9 +228,10 @@ export class CalendarComponent implements OnInit {
     this.changeDetector.detectChanges(); // aparece um aviso
   }
 
-
-  ngOnInit(): void {
-
+  closeModal() {
+    const modalAddEvent = document.querySelector(".modalAddEvent") as HTMLElement
+    modalAddEvent.style.display = "none"
   }
+
 
 }

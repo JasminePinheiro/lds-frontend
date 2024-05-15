@@ -15,38 +15,39 @@
         </div>
     </div>
 
-    <div class="cadatrar" style="display: none;">
+    <!--Modal-->
+    <div class="modalAddEvent" style="display: none;">
         <div class="cadastrar-content">
             <h3>Adicionar evento</h3>
-            
+
             <div class="input-calendar">
-                <label>Nome do evento:</label>
-                <input type="text">
+                <label for="nameEvent">Nome do evento:</label>
+                <input type="text" id="nameEvent" name="nameEvent">
             </div>
 
             <div class="input-calendar">
-                <label>Data de início:</label>
-                <input type="date" name="data" id="id">
+                <label for="startDate">Data de início:</label>
+                <input type="date" name="startDate" id="startDate">
             </div>
 
             <div class="input-calendar">
-                <label>Data de fim:</label>
-                <input type="date" name="data" id="id">
+                <label for="endDate">Data de fim:</label>
+                <input type="date" name="data" id="endDate">
             </div>
 
             <div class="input-calendar">
-                <label>Horário de início:</label>
-                <input type="time" name="data" id="id">
+                <label for="startHour">Horário de início:</label>
+                <input type="time" name="startHour" id="startHour">
             </div>
 
             <div class="input-calendar">
-                <label>Horário de início:</label>
-                <input type="time" name="data" id="id">
+                <label for="endHour">Horário de fim:</label>
+                <input type="time" name="endHour" id="endHour">
             </div>
 
             <div class="btn mt-2">
-                <button>Fechar</button>
-                <button>Adicionar</button>
+                <button (click)="closeModal()">Fechar</button>
+                <button type="submit">Adicionar</button>
             </div>
         </div>
     </div>
