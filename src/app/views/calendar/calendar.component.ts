@@ -171,11 +171,23 @@ export class CalendarComponent {
     modal.style.borderRadius = "10px"
 
     const addButton = document.querySelector('.modalAddEvent button[type="submit"]') as HTMLButtonElement;
-    
+
     addButton.onclick = function () {
       const titleInput = document.querySelector('.modalAddEvent input#nameEvent') as HTMLInputElement;
+      const startDateInput = document.querySelector('.modalAddEvent input#startDate') as HTMLInputElement;
+      const endDateInput = document.querySelector('.modalAddEvent input#endDate') as HTMLInputElement;
+      const startHourInput = document.querySelector('.modalAddEvent input#startHour') as HTMLInputElement;
+      const endHourInput = document.querySelector('.modalAddEvent input#endHour') as HTMLInputElement;
+
       const title = titleInput.value
-      // let title: any
+      const startDate = startDateInput.value;
+      const endDate = endDateInput.value;
+      const startHour = startHourInput.value;
+      const endHour = endHourInput.value;
+
+      const startDateTime = new Date(`${startDate}T${startHour}`);
+      const endDateTime = new Date(`${endDate}T${endHour}`);
+
       const calendarApi = selectInfo.view.calendar;
 
       console.log(calendarApi);
@@ -186,16 +198,21 @@ export class CalendarComponent {
         calendarApi.addEvent({
           id: createEventId(),
           title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
+          start: startDateTime.toISOString(),
+          end: endDateTime.toISOString(),
+          allDay: false
         });
       }
 
       titleInput.value = '';
+      startDateInput.value = '';
+      endDateInput.value = '';
+      startHourInput.value = '';
+      endHourInput.value = '';
+      
       modal.style.display = "none";
     }
-  
+
   }
 
   // adicionar evento no calendario
@@ -232,6 +249,5 @@ export class CalendarComponent {
     const modalAddEvent = document.querySelector(".modalAddEvent") as HTMLElement
     modalAddEvent.style.display = "none"
   }
-
 
 }
