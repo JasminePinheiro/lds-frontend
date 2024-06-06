@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <!--Modal-->
+    <!--Modal de adicionar evento -->
     <div class="modalAddEvent" style="display: none;">
         <div class="cadastrar-content">
             <h3>Adicionar evento</h3>
@@ -51,5 +51,44 @@
             </div>
         </div>
     </div>
+
+
+    <!--Modal de editar evento -->
+    <div class="modalEditEvent" style="display: none;">
+        <div class="cadastrar-content">
+            <h3>Editar evento</h3>
+
+            <div class="input-calendar">
+                <label for="editNameEvent">Nome do evento:</label>
+                <input type="text" id="editNameEvent" name="editNameEvent">
+            </div>
+
+            <div class="input-calendar">
+                <label for="editStartDate">Data de início:</label>
+                <input type="date" name="editStartDate" id="editStartDate">
+            </div>
+
+            <div class="input-calendar">
+                <label for="editEndDate">Data de fim:</label>
+                <input type="date" name="editEndDate" id="editEndDate">
+            </div>
+
+            <div class="input-calendar">
+                <label for="editStartHour">Horário de início:</label>
+                <input type="time" name="editStartHour" id="editStartHour">
+            </div>
+
+            <div class="input-calendar">
+                <label for="editEndHour">Horário de fim:</label>
+                <input type="time" name="editEndHour" id="editEndHour">
+            </div>
+
+            <div class="btn mt-2">
+                <button (click)="closeModalEdit()">Fechar</button>
+                <button type="submit">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+
 
 </div>
