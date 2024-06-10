@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, signal, ChangeDetectorRef, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -10,6 +10,7 @@ import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
+import { Firestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-calendar',
@@ -21,8 +22,15 @@ import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 })
 
 export class CalendarComponent {
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.carregarEventosDoUsuario()
+  }
 
+  constructor(private changeDetector: ChangeDetectorRef) {
+  }
+
+  firestore = inject(Firestore);
+  currentEvents = signal<EventApi[]>([]);
   calendarVisible = signal(true);
   calendarOptions = signal<CalendarOptions>({
     plugins: [
@@ -64,9 +72,12 @@ export class CalendarComponent {
     eventRemove:
     */
   });
-  currentEvents = signal<EventApi[]>([]);
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+
+  carregarEventosDoUsuario() {
+    if (typeof localStorage !== 'undefined') {
+      let email = localStorage.getItem("email");
+    }
   }
 
   handleCalendarToggle() {
@@ -97,7 +108,7 @@ export class CalendarComponent {
 
     const addButton = document.querySelector('.modalAddEvent button[type="submit"]') as HTMLButtonElement;
 
-    addButton.onclick = function () {
+    addButton.onclick = async () => {
       const titleInput = document.querySelector('.modalAddEvent input#nameEvent') as HTMLInputElement;
       const startDateInput = document.querySelector('.modalAddEvent input#startDate') as HTMLInputElement;
       const endDateInput = document.querySelector('.modalAddEvent input#endDate') as HTMLInputElement;
@@ -129,6 +140,11 @@ export class CalendarComponent {
         });
       }
 
+      // try {
+      //   const email = localStorage.getItem("email");
+       
+      // }
+
       titleInput.value = '';
       startDateInput.value = '';
       endDateInput.value = '';
@@ -147,57 +163,58 @@ export class CalendarComponent {
   //   }
   // }
 
+
   // arrumar a função de editar
-    handleEventClick(clickInfo: EventClickArg) {
-      let modal = document.querySelector(".modalEditEvent") as HTMLElement
-      modal.style.display = "block"
-      modal.style.position = "absolute";
-      modal.style.top = "50%";
-      modal.style.left = "50%";
-      modal.style.transform = "translate(-50%, -50%)";
-      modal.style.zIndex = '2'
-      modal.style.backgroundColor = "#fff"
-      modal.style.width = "450px"
-      modal.style.height = "450px"
-      modal.style.borderRadius = "10px"
+  handleEventClick(clickInfo: EventClickArg) {
+    let modal = document.querySelector(".modalEditEvent") as HTMLElement
+    modal.style.display = "block"
+    modal.style.position = "absolute";
+    modal.style.top = "50%";
+    modal.style.left = "50%";
+    modal.style.transform = "translate(-50%, -50%)";
+    modal.style.zIndex = '2'
+    modal.style.backgroundColor = "#fff"
+    modal.style.width = "450px"
+    modal.style.height = "450px"
+    modal.style.borderRadius = "10px"
 
-      const event = clickInfo.event;
-      const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
-      const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
-      const editStartDateInput = document.querySelector('.modalEditEvent input#editStartDate') as HTMLInputElement;
-      const editEndDateInput = document.querySelector('.modalEditEvent input#editEndDate') as HTMLInputElement;
-      const editStartHourInput = document.querySelector('.modalEditEvent input#editStartHour') as HTMLInputElement;
-      const editEndHourInput = document.querySelector('.modalEditEvent input#editEndHour') as HTMLInputElement;
+    const event = clickInfo.event;
+    const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
+    const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
+    const editStartDateInput = document.querySelector('.modalEditEvent input#editStartDate') as HTMLInputElement;
+    const editEndDateInput = document.querySelector('.modalEditEvent input#editEndDate') as HTMLInputElement;
+    const editStartHourInput = document.querySelector('.modalEditEvent input#editStartHour') as HTMLInputElement;
+    const editEndHourInput = document.querySelector('.modalEditEvent input#editEndHour') as HTMLInputElement;
 
-      editNameEventInput.value = event.title;
-      if (event.start) {
-        editStartDateInput.value = event.start.toISOString().split('T')[0];
-        editStartHourInput.value = event.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); // Usando toLocaleTimeString para exibir o horário local
+    editNameEventInput.value = event.title;
+    if (event.start) {
+      editStartDateInput.value = event.start.toISOString().split('T')[0];
+      editStartHourInput.value = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Usando toLocaleTimeString para exibir o horário local
     }
 
     if (event.end) {
       editStartDateInput.value = event.end.toISOString().split('T')[0];
-      editEndHourInput.value = event.end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); // Usando toLocaleTimeString para exibir o horário local
+      editEndHourInput.value = event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Usando toLocaleTimeString para exibir o horário local
     }
 
-      // Evento para editar o evento
-      const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
-      editButton.onclick = () => {
-          const newTitle = editNameEventInput.value;
-          const newStartDate = editStartDateInput.value;
-          const newEndDate = editEndDateInput.value;
-          const newStartHour = editStartHourInput.value;
-          const newEndHour = editEndHourInput.value;
+    // Evento para editar o evento
+    const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
+    editButton.onclick = () => {
+      const newTitle = editNameEventInput.value;
+      const newStartDate = editStartDateInput.value;
+      const newEndDate = editEndDateInput.value;
+      const newStartHour = editStartHourInput.value;
+      const newEndHour = editEndHourInput.value;
 
-          const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
-          const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
+      const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
+      const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
 
-          event.setProp('title', newTitle);
-          event.setStart(newStartDateTime);
-          event.setEnd(newEndDateTime);
+      event.setProp('title', newTitle);
+      event.setStart(newStartDateTime);
+      event.setEnd(newEndDateTime);
 
-          modalEditEvent.style.display = "none";
-      };
+      modalEditEvent.style.display = "none";
+    };
   }
 
   // arrumar a função de editar
