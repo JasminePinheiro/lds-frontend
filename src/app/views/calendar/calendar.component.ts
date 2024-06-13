@@ -9,8 +9,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
 
+
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import { Firestore } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { EventModel } from '../../controllers/models/event-user';
 
 @Component({
   selector: 'app-calendar',
@@ -22,14 +24,13 @@ import { Firestore } from '@angular/fire/firestore';
 })
 
 export class CalendarComponent {
-  ngOnInit(): void {
-    this.carregarEventosDoUsuario()
-  }
+  ngOnInit(): void {}
 
   constructor(private changeDetector: ChangeDetectorRef) {
   }
 
   firestore = inject(Firestore);
+
   currentEvents = signal<EventApi[]>([]);
   calendarVisible = signal(true);
   calendarOptions = signal<CalendarOptions>({
@@ -93,7 +94,7 @@ export class CalendarComponent {
 
 
   // ***** Modal em produção de adicionar evento *****
-  handleDateSelect(selectInfo: DateSelectArg) {
+  async handleDateSelect(selectInfo: DateSelectArg) {
     let modal = document.querySelector(".modalAddEvent") as HTMLElement
     modal.style.display = "block"
     modal.style.position = "absolute";
@@ -140,17 +141,25 @@ export class CalendarComponent {
         });
       }
 
-      // try {
-      //   const email = localStorage.getItem("email");
-       
-      // }
+      try {
+        const newEvent: EventModel = {
+          end_date: 53454,
+          event_name: title,
+          start_date: 8098080,
+          username: "Pamela"
+        }
 
-      titleInput.value = '';
-      startDateInput.value = '';
-      endDateInput.value = '';
-      startHourInput.value = '';
-      endHourInput.value = '';
+        await addDoc(collection(this.firestore, 'eventos'), newEvent)
 
+        titleInput.value = '';
+        startDateInput.value = '';
+        endDateInput.value = '';
+        startHourInput.value = '';
+        endHourInput.value = '';
+
+      } catch (error) {
+        console.log(error);
+      }
       modal.style.display = "none";
     }
 
@@ -160,6 +169,25 @@ export class CalendarComponent {
   // handleEventClick(clickInfo: EventClickArg) {
   //   if (confirm(`Tem certeza que deseja excluir o evento '${clickInfo.event.title}'?`)) {
   //     clickInfo.event.remove();
+  //   }
+  // }
+
+  // ***** Apagar depois *****
+  // async testeAddEvent() {
+  //   try {
+  //     const newEvent: EventModel = {
+  //       end_date: 123,
+  //       event_name: "mine",
+  //       start_date: 123,
+  //       username: "mine"
+  //     }
+  //     alert("passou")
+  //   await  addDoc(collection(this.firestore, 'eventos'), newEvent)
+  //   console.log(this.firestore);
+    
+
+  //   } catch (error) {
+  //     console.log(error);
   //   }
   // }
 
