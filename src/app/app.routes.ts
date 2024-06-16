@@ -9,6 +9,7 @@ import { ExitComponent } from './views/exit/exit.component';
 import { CadastroComponent } from './views/cadastro/cadastro.component';
 import { RecuperarSenhaComponent } from './views/recuperar-senha/recuperar-senha.component';
 import { ConfiguracoesPerfilComponent } from './views/configuracoes-perfil/configuracoes-perfil.component';
+import { ProjetosComponent } from './views/projetos/projetos.component';
 
 export const routes: Routes = [
     // { path: '', component: LoginComponent, pathMatch: 'full' },
@@ -26,6 +27,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
             { path: 'calendario', component: CalendarComponent, pathMatch: 'full' },
+            { path: 'projetos', component: ProjetosComponent, pathMatch: 'full' },
             { path: 'configuracoes', component: ConfiguracoesPerfilComponent, pathMatch: 'full' },
             { path: 'sair', component: ExitComponent, pathMatch: 'full' },
             { path: 'login', component: LoginComponent, pathMatch: 'full' },
