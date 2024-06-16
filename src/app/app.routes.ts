@@ -11,14 +11,8 @@ import { RecuperarSenhaComponent } from './views/recuperar-senha/recuperar-senha
 import { ConfiguracoesPerfilComponent } from './views/configuracoes-perfil/configuracoes-perfil.component';
 
 export const routes: Routes = [
-    // { path: '', component: LoginComponent, pathMatch: 'full' },
     { path: '', component: LoginComponent, pathMatch: 'full' },
     { path: 'cadastro', component: CadastroComponent },
-    // { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
-    // { path: 'calendario', component: CalendarComponent, pathMatch: 'full' },
-    // { path: 'recuperacao', component: RecuperarSenhaComponent, pathMatch: 'full' },
-    // { path: 'editarperfil', component: ConfiguracoesPerfilComponent, pathMatch: 'full' },
-    { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
     { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
     
     {
