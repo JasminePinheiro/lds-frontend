@@ -22,7 +22,9 @@ export class ExitComponent {
   }
 
   redirectToLogin() {
-    localStorage.clear();
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.clear();
+    }
     this.router.navigate(['']);
   }
   
