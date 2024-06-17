@@ -11,12 +11,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class TemplateFormValidationComponent {
 
-  isFormSubmited: boolean = false;
+  // isFormSubmited: boolean = false;
 
-  userObj: any = {
-    nome: '',
-    email: '',
-    senha: '',
-    atividadeFavorita: ''
-  }
+  // userObj: any = {
+  //   nome: '',
+  //   email: '',
+  //   senha: '',
+  //   atividadeFavorita: ''
+  // }
 }

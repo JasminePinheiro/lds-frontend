@@ -1,5 +1,5 @@
-import { Component, signal, ChangeDetectorRef, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, ChangeDetectorRef, OnInit, inject, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/core';
@@ -24,15 +24,19 @@ import { EventModel } from '../../controllers/models/event-user';
 })
 
 export class CalendarComponent {
-  ngOnInit(): void {}
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private changeDetector: ChangeDetectorRef,  @Inject(PLATFORM_ID) private platformId: object) { }
+ 
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.calendarVisible.set(true);
+    }
   }
 
-  firestore = inject(Firestore);
 
+  firestore = inject(Firestore);
   currentEvents = signal<EventApi[]>([]);
-  calendarVisible = signal(true);
+  calendarVisible = signal(false);
   calendarOptions = signal<CalendarOptions>({
     plugins: [
       interactionPlugin,
@@ -49,7 +53,7 @@ export class CalendarComponent {
     },
 
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+    initialEvents: INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
@@ -91,7 +95,6 @@ export class CalendarComponent {
       weekends: !options.weekends,
     }));
   }
-
 
   // ***** Modal em produção de adicionar evento *****
   async handleDateSelect(selectInfo: DateSelectArg) {
@@ -169,25 +172,6 @@ export class CalendarComponent {
   // handleEventClick(clickInfo: EventClickArg) {
   //   if (confirm(`Tem certeza que deseja excluir o evento '${clickInfo.event.title}'?`)) {
   //     clickInfo.event.remove();
-  //   }
-  // }
-
-  // ***** Apagar depois *****
-  // async testeAddEvent() {
-  //   try {
-  //     const newEvent: EventModel = {
-  //       end_date: 123,
-  //       event_name: "mine",
-  //       start_date: 123,
-  //       username: "mine"
-  //     }
-  //     alert("passou")
-  //   await  addDoc(collection(this.firestore, 'eventos'), newEvent)
-  //   console.log(this.firestore);
-    
-
-  //   } catch (error) {
-  //     console.log(error);
   //   }
   // }
 
