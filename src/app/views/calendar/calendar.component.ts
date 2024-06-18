@@ -203,7 +203,7 @@ export class CalendarComponent {
 
   // ***** Modal que edita o evento *****
   handleEventClick(clickInfo: EventClickArg) {
-    this.selectedEvent = clickInfo.event;
+    this.selectedEvent = clickInfo.event;   
 
     let modal = document.querySelector(".modalEditEvent") as HTMLElement
     modal.style.display = "block"
@@ -218,7 +218,6 @@ export class CalendarComponent {
     modal.style.height = "420px"
 
     const event = clickInfo.event;
-    const eventId = event.extendedProps['firestoreId']; // Obter ID do Firestore dos props do evento
 
     const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
     const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
@@ -231,22 +230,21 @@ export class CalendarComponent {
 
     if (event.start) {
       const startDate = new Date(event.start);
-      editStartDateInput.value = '2024-06-15'
+      const dia = startDate.toLocaleDateString('pt-BR', { day: '2-digit' });
+      const mes = startDate.toLocaleDateString('pt-BR', { month: '2-digit' });
+      const ano = startDate.toLocaleDateString('pt-BR', { year: 'numeric' });
+      editStartDateInput.value = `${ano}-${mes}-${dia}`;
       editStartHourInput.value = startDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      console.log(editStartDateInput.value);
-      console.log(new Date(event.start).toLocaleDateString('pt-BR'))
     }
-    // console.log(event.start);
-    // console.log(editStartDateInput.value);
 
     if (event.end) {
       const endDate = new Date(event.end);
-      editEndDateInput.value = endDate.toISOString().split('T')[0];
+      const dia = endDate.toLocaleDateString('pt-BR', { day: '2-digit' });
+      const mes = endDate.toLocaleDateString('pt-BR', { month: '2-digit' });
+      const ano = endDate.toLocaleDateString('pt-BR', { year: 'numeric' });
+      editEndDateInput.value = `${ano}-${mes}-${dia}`;
       editEndHourInput.value = endDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
-
-    // console.log(event.end);
-    // console.log(editEndDateInput.value);
 
     // Evento para editar o evento
     const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
@@ -262,13 +260,14 @@ export class CalendarComponent {
       const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
       const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
 
+      console.log(newStartDateTime);
 
       event.setProp('title', newTitle);
       event.setStart(newStartDateTime);
       event.setEnd(newEndDateTime);
 
       try {
-        const eventRef = doc(this.firestore, 'eventos', eventId); // Referência ao documento
+        const eventRef = doc(this.firestore, 'eventos', this.selectedEvent!.id); // Referência ao documento
         await updateDoc(eventRef, {
           event_name: newTitle,
           start_date: newStartDateTime.getTime(),
