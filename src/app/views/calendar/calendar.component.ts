@@ -228,7 +228,7 @@ export class CalendarComponent {
 
     const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
     const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
-    const editDescriptionEventInput = document.querySelector('.modalEditEvent textarea#editNameEvent') as HTMLInputElement;
+    const editDescriptionEventInput = document.querySelector('.modalEditEvent textarea#editDescriptionEvent') as HTMLInputElement;
     const editStartDateInput = document.querySelector('.modalEditEvent input#editStartDate') as HTMLInputElement;
     const editEndDateInput = document.querySelector('.modalEditEvent input#editEndDate') as HTMLInputElement;
     const editStartHourInput = document.querySelector('.modalEditEvent input#editStartHour') as HTMLInputElement;
@@ -253,6 +253,8 @@ export class CalendarComponent {
       editEndDateInput.value = `${ano}-${mes}-${dia}`;
       editEndHourInput.value = endDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
+
+    editDescriptionEventInput.value! = event.extendedProps['description'] || '';
 
     // Evento para editar o evento
     const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
@@ -312,48 +314,6 @@ export class CalendarComponent {
       }
     }
   }
-
-
-
-
-
-  // arrumar a função de editar
-  // handleEventClick(clickInfo: EventClickArg) {
-  //   const event = clickInfo.event;
-  //   const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
-  //   const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
-  //   const editStartDateInput = document.querySelector('.modalEditEvent input#editStartDate') as HTMLInputElement;
-  //   const editEndDateInput = document.querySelector('.modalEditEvent input#editEndDate') as HTMLInputElement;
-  //   const editStartHourInput = document.querySelector('.modalEditEvent input#editStartHour') as HTMLInputElement;
-  //   const editEndHourInput = document.querySelector('.modalEditEvent input#editEndHour') as HTMLInputElement;
-
-  //   editNameEventInput.value = event.title;
-  //   editStartDateInput.value = event.start!.toISOString().split('T')[0];
-  //   editEndDateInput.value = event.end!.toISOString().split('T')[0];
-  //   editStartHourInput.value = event.start!.toISOString().split('T')[1].slice(0, 5);
-  //   editEndHourInput.value = event.end!.toISOString().split('T')[1].slice(0, 5);
-
-  //   modalEditEvent.style.display = "block";
-
-  //   // Evento para editar o evento
-  //   const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
-  //   editButton.onclick = () => {
-  //       const newTitle = editNameEventInput.value;
-  //       const newStartDate = editStartDateInput.value;
-  //       const newEndDate = editEndDateInput.value;
-  //       const newStartHour = editStartHourInput.value;
-  //       const newEndHour = editEndHourInput.value;
-
-  //       const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
-  //       const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
-
-  //       event.setProp('title', newTitle);
-  //       event.setStart(newStartDateTime);
-  //       event.setEnd(newEndDateTime);
-
-  //       modalEditEvent.style.display = "none";
-  //   };
-  // }
 
   // Outras partes do seu código...
   handleEvents(events: EventApi[]) {
