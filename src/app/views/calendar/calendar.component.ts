@@ -134,10 +134,10 @@ export class CalendarComponent {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-    modal.style.zIndex = '2'
-    modal.style.backgroundColor = "#fff"
-    modal.style.width = "450px"
-    modal.style.height = "460px"
+    modal.style.zIndex = '2';
+    modal.style.backgroundColor = "#fff";
+    modal.style.width = "450px";
+    modal.style.height = "500px";
 
     const addButton = document.querySelector('.modalAddEvent button[type="submit"]') as HTMLButtonElement;
 
@@ -218,11 +218,11 @@ export class CalendarComponent {
     modal.style.top = "50%";
     modal.style.left = "50%";
     modal.style.transform = "translate(-50%, -50%)";
-    modal.style.zIndex = '2'
-    modal.style.backgroundColor = "#fff"
-    modal.style.width = "450px"
-    modal.style.width = "450px"
-    modal.style.height = "450px"
+    modal.style.zIndex = '2';
+    modal.style.backgroundColor = "#fff";
+    modal.style.width = "450px";
+    modal.style.width = "450px";
+    modal.style.height = "500px";
 
     const event = clickInfo.event;
 
