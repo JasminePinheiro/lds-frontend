@@ -10,6 +10,7 @@
                 <ng-template #eventContent let-arg>
                     <b>{{ arg.timeText }}</b>
                     <i>{{ arg.event.title }}</i>
+                    <i>{{ arg.event.extendedProps.description }}</i>
                 </ng-template>
             </full-calendar>
         </div>
@@ -26,6 +27,11 @@
             <div class="input-calendar">
                 <label for="nameEvent">Nome do evento:</label>
                 <input type="text" id="nameEvent" name="nameEvent">
+            </div>
+
+            <div class="input-calendar">
+                <label for="descriptionEvent">Descrição do evento:</label>
+                <textarea type="text" id="descriptionEvent" name="descriptionEvent"></textarea>
             </div>
 
             <div class="input-calendar">
@@ -66,6 +72,11 @@
             <div class="input-calendar">
                 <label for="editNameEvent">Nome do evento:</label>
                 <input type="text" id="editNameEvent" name="editNameEvent">
+            </div>
+
+            <div class="input-calendar">
+                <label for="editDescriptionEvent">Descrição do evento:</label>
+                <textarea type="text" id="editDescriptionEvent" name="editDescriptionEvent"></textarea>
             </div>
 
             <div class="input-calendar">

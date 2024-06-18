@@ -3,4 +3,5 @@ export interface EventModel {
     event_name: string;
     start_date: number | Date;
     username: string;
+    description: string;
 }
