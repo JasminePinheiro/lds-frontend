@@ -3,12 +3,8 @@
         <h3>Calendário</h3>
     </div>
 
-    <!-- <button (click)="testeAddEvent()">addEvent</button> -->
-    <!-- <button (click)="adicionarUsuario()">adicionarEvento</button> -->
-    
-
-    <!-- calendário   -->
-     <div class='demo-app'>
+    <!-- Calendário   -->
+    <div class='demo-app'>
         <div class='demo-app-main'>
             <full-calendar *ngIf='calendarVisible()' [options]='calendarOptions()'>
                 <ng-template #eventContent let-arg>
@@ -17,14 +13,16 @@
                 </ng-template>
             </full-calendar>
         </div>
-    </div> 
+    </div>
 
 
     <!--Modal de adicionar evento -->
     <div class="modalAddEvent" style="display: none;">
         <div class="cadastrar-content">
-            <h1>Adicionar evento</h1>
-
+            <div class="header-modal">
+                <h1>Adicionar evento</h1>
+                <i class='bx bx-x' (click)="closeModal()"></i>
+            </div>
             <div class="input-calendar">
                 <label for="nameEvent">Nome do evento:</label>
                 <input type="text" id="nameEvent" name="nameEvent">
@@ -61,8 +59,10 @@
     <!--Modal de editar evento -->
     <div class="modalEditEvent" style="display: none;">
         <div class="cadastrar-content">
-            <h1>Editar evento</h1>
-
+            <div class="header-modal">
+                <h1>Editar evento</h1>
+                <i class='bx bx-x' (click)="closeModalEdit()"></i>
+            </div>
             <div class="input-calendar">
                 <label for="editNameEvent">Nome do evento:</label>
                 <input type="text" id="editNameEvent" name="editNameEvent">
@@ -89,7 +89,7 @@
             </div>
 
             <div class="btn mt-2">
-                <button (click)="closeModalEdit()" class="close">Fechar</button>
+                <button class="close" (click)="handleRemoveEvent()">Remover</button>
                 <button type="submit" class="add">Salvar Alterações</button>
             </div>
         </div>

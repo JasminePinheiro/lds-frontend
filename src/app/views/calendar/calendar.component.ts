@@ -2,7 +2,7 @@ import { Component, signal, ChangeDetectorRef, OnInit, inject, Inject, PLATFORM_
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, EventInput } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -11,7 +11,7 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import { Firestore, addDoc, collection } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
 import { EventModel } from '../../controllers/models/event-user';
 
 @Component({
@@ -30,13 +30,16 @@ export class CalendarComponent {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.calendarVisible.set(true);
+      this.loadEventsToCalendar();
     }
   }
-
 
   firestore = inject(Firestore);
   currentEvents = signal<EventApi[]>([]);
   calendarVisible = signal(false);
+  selectedEvent: EventApi | null = null;
+
+
   calendarOptions = signal<CalendarOptions>({
     plugins: [
       interactionPlugin,
@@ -70,19 +73,43 @@ export class CalendarComponent {
       day: 'Dia',
       list: 'Lista'
     },
-
-    /* you can update a remote database when these fire:
-    eventAdd:
-    eventChange:
-    eventRemove:
-    */
   });
 
 
-  carregarEventosDoUsuario() {
-    if (typeof localStorage !== 'undefined') {
-      let email = localStorage.getItem("email");
-    }
+  // Obtém os eventos do Firebase e adiciona ao calendário
+  async loadEventsToCalendar() {
+    const events = await this.getEventsFromFirebase();
+    this.calendarOptions.update(options => ({
+      ...options,
+      events: events
+    }));
+  }
+
+
+  // Função que pega os dados do firebase e adiciona no calendário
+  async getEventsFromFirebase(): Promise<EventInput[]> {
+    const querySnapshot = await getDocs(collection(this.firestore, 'eventos'));
+    const events: EventInput[] = [];
+    querySnapshot.forEach(doc => {
+      const eventData = doc.data() as EventModel;
+
+      const startDate = eventData.start_date instanceof Date
+        ? eventData.start_date
+        : new Date(eventData.start_date as number);
+
+      const endDate = eventData.end_date instanceof Date
+        ? eventData.end_date
+        : new Date(eventData.end_date as number);
+
+      events.push({
+        id: doc.id,
+        title: eventData.event_name,
+        start: startDate,
+        end: endDate,
+        allDay: false // Os eventos não podem ter o dia inteiro
+      });
+    });
+    return events;
   }
 
   handleCalendarToggle() {
@@ -96,7 +123,7 @@ export class CalendarComponent {
     }));
   }
 
-  // ***** Modal em produção de adicionar evento *****
+  // ***** Modal que adicionar um evento *****
   async handleDateSelect(selectInfo: DateSelectArg) {
     let modal = document.querySelector(".modalAddEvent") as HTMLElement
     modal.style.display = "block"
@@ -144,20 +171,27 @@ export class CalendarComponent {
       }
 
       try {
-        const newEvent: EventModel = {
-          end_date: 53454,
-          event_name: title,
-          start_date: 8098080,
-          username: "Pamela"
+        if (typeof localStorage !== 'undefined') {
+
+          let email = localStorage.getItem("email");
+          const newEvent: EventModel = {
+            end_date: endDateTime.getTime(),
+            event_name: title,
+            start_date: startDateTime.getTime(),
+            username: email!,
+          }
+
+          await addDoc(collection(this.firestore, 'eventos'), newEvent)
+
+          titleInput.value = '';
+          startDateInput.value = '';
+          endDateInput.value = '';
+          startHourInput.value = '';
+          endHourInput.value = '';
+
+        } else {
+          throw Error("LocalStorage undefined");
         }
-
-        await addDoc(collection(this.firestore, 'eventos'), newEvent)
-
-        titleInput.value = '';
-        startDateInput.value = '';
-        endDateInput.value = '';
-        startHourInput.value = '';
-        endHourInput.value = '';
 
       } catch (error) {
         console.log(error);
@@ -167,16 +201,10 @@ export class CalendarComponent {
 
   }
 
-  // função quando clicar em cima da evento
-  // handleEventClick(clickInfo: EventClickArg) {
-  //   if (confirm(`Tem certeza que deseja excluir o evento '${clickInfo.event.title}'?`)) {
-  //     clickInfo.event.remove();
-  //   }
-  // }
-
-
-  // arrumar a função de editar
+  // ***** Modal que edita o evento *****
   handleEventClick(clickInfo: EventClickArg) {
+    this.selectedEvent = clickInfo.event;
+
     let modal = document.querySelector(".modalEditEvent") as HTMLElement
     modal.style.display = "block"
     modal.style.position = "absolute";
@@ -190,6 +218,8 @@ export class CalendarComponent {
     modal.style.height = "420px"
 
     const event = clickInfo.event;
+    const eventId = event.extendedProps['firestoreId']; // Obter ID do Firestore dos props do evento
+
     const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;
     const editNameEventInput = document.querySelector('.modalEditEvent input#editNameEvent') as HTMLInputElement;
     const editStartDateInput = document.querySelector('.modalEditEvent input#editStartDate') as HTMLInputElement;
@@ -198,35 +228,83 @@ export class CalendarComponent {
     const editEndHourInput = document.querySelector('.modalEditEvent input#editEndHour') as HTMLInputElement;
 
     editNameEventInput.value = event.title;
+
     if (event.start) {
-      editStartDateInput.value = event.start.toISOString().split('T')[0];
-      editStartHourInput.value = event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Usando toLocaleTimeString para exibir o horário local
+      const startDate = new Date(event.start);
+      editStartDateInput.value = '2024-06-15'
+      editStartHourInput.value = startDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      console.log(editStartDateInput.value);
+      console.log(new Date(event.start).toLocaleDateString('pt-BR'))
     }
+    // console.log(event.start);
+    // console.log(editStartDateInput.value);
 
     if (event.end) {
-      editStartDateInput.value = event.end.toISOString().split('T')[0];
-      editEndHourInput.value = event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Usando toLocaleTimeString para exibir o horário local
+      const endDate = new Date(event.end);
+      editEndDateInput.value = endDate.toISOString().split('T')[0];
+      editEndHourInput.value = endDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
+
+    // console.log(event.end);
+    // console.log(editEndDateInput.value);
 
     // Evento para editar o evento
     const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
-    editButton.onclick = () => {
+
+    editButton.onclick = async () => {
       const newTitle = editNameEventInput.value;
       const newStartDate = editStartDateInput.value;
       const newEndDate = editEndDateInput.value;
       const newStartHour = editStartHourInput.value;
       const newEndHour = editEndHourInput.value;
 
+
       const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
       const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
+
 
       event.setProp('title', newTitle);
       event.setStart(newStartDateTime);
       event.setEnd(newEndDateTime);
 
+      try {
+        const eventRef = doc(this.firestore, 'eventos', eventId); // Referência ao documento
+        await updateDoc(eventRef, {
+          event_name: newTitle,
+          start_date: newStartDateTime.getTime(),
+          end_date: newEndDateTime.getTime(),
+        });
+
+        console.log('Evento atualizado com sucesso');
+      } catch (error) {
+        console.error('Erro ao atualizar o evento:', error);
+      }
+
       modalEditEvent.style.display = "none";
     };
   }
+
+  // Função remover evento
+  async handleRemoveEvent() {
+    if (this.selectedEvent) {
+      if (confirm(`Tem certeza que deseja excluir o evento '${this.selectedEvent.title}'?`)) {
+        try {
+          await deleteDoc(doc(this.firestore, 'eventos', this.selectedEvent.id));
+          this.selectedEvent.remove();
+          this.selectedEvent = null;
+
+          const modal = document.querySelector(".modalEditEvent") as HTMLElement;
+          modal.style.display = "none";
+        } catch (error) {
+          console.error("Erro ao remover o evento: ", error);
+        }
+      }
+    }
+  }
+
+
+
+
 
   // arrumar a função de editar
   // handleEventClick(clickInfo: EventClickArg) {
