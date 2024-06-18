@@ -2,12 +2,6 @@
   -webkit-text-stroke: #000 1px;
 }
 
-
-h2 {
-  margin: 0;
-  font-size: 16px;
-}
-
 ul {
   margin: 0;
   padding: 0 0 0 1.5em;
@@ -73,6 +67,7 @@ b {
 
     i {
       font-size: 22px;
+
       &:hover {
         cursor: pointer;
       }
