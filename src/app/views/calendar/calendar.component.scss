@@ -62,7 +62,7 @@ b {
   justify-content: left;
   padding: 1rem;
 
-  h3 {
+  h1 {
     -webkit-text-stroke: 0.5px;
     color: var(--color-primary);
   }
@@ -83,12 +83,30 @@ b {
   justify-content: right;
   align-items: flex-end;
   align-content: flex-end;
-}
 
-button {
-  border: none;
-  outline: none;
-  padding: 7px;
-  border-radius: 4px;
-  margin: 3px;
+  button {
+    border: none;
+    outline: none;
+    padding: 7px;
+    border-radius: 4px;
+    margin: 3px;
+  }
+
+  .close {
+    background-color: #9d0000;
+    color: var(--bg-color);
+
+    &:hover {
+      background-color: #750000;
+    }
+  }
+
+  .add {
+    background-color: var(--color-primary);
+    color: var(--bg-color);
+
+    &:hover {
+      background-color: #0a4751;
+    }
+  }
 }

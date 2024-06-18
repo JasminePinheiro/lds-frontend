@@ -25,8 +25,8 @@ import { EventModel } from '../../controllers/models/event-user';
 
 export class CalendarComponent {
 
-  constructor(private changeDetector: ChangeDetectorRef,  @Inject(PLATFORM_ID) private platformId: object) { }
- 
+  constructor(private changeDetector: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: object) { }
+
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.calendarVisible.set(true);
@@ -107,8 +107,7 @@ export class CalendarComponent {
     modal.style.zIndex = '2'
     modal.style.backgroundColor = "#fff"
     modal.style.width = "450px"
-    modal.style.height = "450px"
-    modal.style.borderRadius = "10px"
+    modal.style.height = "420px"
 
     const addButton = document.querySelector('.modalAddEvent button[type="submit"]') as HTMLButtonElement;
 
@@ -187,8 +186,8 @@ export class CalendarComponent {
     modal.style.zIndex = '2'
     modal.style.backgroundColor = "#fff"
     modal.style.width = "450px"
-    modal.style.height = "450px"
-    modal.style.borderRadius = "10px"
+    modal.style.width = "450px"
+    modal.style.height = "420px"
 
     const event = clickInfo.event;
     const modalEditEvent = document.querySelector(".modalEditEvent") as HTMLElement;

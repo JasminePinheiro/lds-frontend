@@ -23,7 +23,7 @@
     <!--Modal de adicionar evento -->
     <div class="modalAddEvent" style="display: none;">
         <div class="cadastrar-content">
-            <h3>Adicionar evento</h3>
+            <h1>Adicionar evento</h1>
 
             <div class="input-calendar">
                 <label for="nameEvent">Nome do evento:</label>
@@ -51,8 +51,8 @@
             </div>
 
             <div class="btn mt-2">
-                <button (click)="closeModal()">Fechar</button>
-                <button type="submit">Adicionar</button>
+                <button (click)="closeModal()" class="close">Fechar</button>
+                <button type="submit" class="add">Adicionar</button>
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
     <!--Modal de editar evento -->
     <div class="modalEditEvent" style="display: none;">
         <div class="cadastrar-content">
-            <h3>Editar evento</h3>
+            <h1>Editar evento</h1>
 
             <div class="input-calendar">
                 <label for="editNameEvent">Nome do evento:</label>
@@ -89,8 +89,8 @@
             </div>
 
             <div class="btn mt-2">
-                <button (click)="closeModalEdit()">Fechar</button>
-                <button type="submit">Salvar Alterações</button>
+                <button (click)="closeModalEdit()" class="close">Fechar</button>
+                <button type="submit" class="add">Salvar Alterações</button>
             </div>
         </div>
     </div>

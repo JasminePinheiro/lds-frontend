@@ -7,7 +7,7 @@
     --color-primary: #0C5663;
     --bg-color: #EBF0F3;
     --fonte-primaria: "Roboto", sans-serif;
-    --cor-fundo: #EBF0F3;
+    --cor-fundo: var(--bg-color);
     --cor-font-escura: #25221E;
     --cor-font-clara: #666666;
 }
