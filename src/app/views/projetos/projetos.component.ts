@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule para ngModel
-import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -66,12 +66,12 @@ export class ProjetosComponent implements OnInit {
 
   // Adicionando uma tarefa no projeto
   async addTask(column: Column) {
+    const newTaskName = prompt('Digite o nome da tarefa:');
     const newTaskDescription = prompt('Digite a descrição da tarefa:');
     const newTaskStartDate = prompt('Digite a data de início (YYYY-MM-DD):');
     const newTaskEndDate = prompt('Digite a data de fim (YYYY-MM-DD):');
-    const newTaskName = prompt('Digite o nome da tarefa:');
 
-    if (newTaskDescription && newTaskStartDate && newTaskEndDate && newTaskName) {
+    if (newTaskName && newTaskDescription && newTaskStartDate && newTaskEndDate) {
 
       const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
       let projectDocRef: any;
@@ -115,22 +115,23 @@ export class ProjetosComponent implements OnInit {
     this.selectedTask = task;
   }
 
-  // async updateTask() {
-  //   if (this.selectedColumn && this.selectedTask) {
-  //     const updatedTaskIndex = this.selectedColumn.tasks.findIndex(t => t.id === this.selectedTask!.id);
-  //     if (updatedTaskIndex !== -1) {
-  //       this.selectedColumn.tasks[updatedTaskIndex] = this.selectedTask!;
-  //       await updateDoc(doc(this.firestore, 'projects', this.selectedColumn.tasks[updatedTaskIndex].id.toString()), { tasks: this.selectedColumn.tasks });
+  async updateTask() {
+    if (this.selectedColumn && this.selectedTask) {
+      const updatedTaskIndex = this.selectedColumn.tasks.findIndex(t => t.id === this.selectedTask!.id);
+      if (updatedTaskIndex !== -1) {
+        this.selectedColumn.tasks[updatedTaskIndex] = this.selectedTask!;
+        await updateDoc(doc(this.firestore, 'projects', this.selectedColumn.tasks[updatedTaskIndex].id.toString()), { tasks: this.selectedColumn.tasks });
 
-  //       this.selectedTask = null;
-  //     }
-  //   }
-  // }
+        this.selectedTask = null;
+      }
+    }
+  }
 
 
   // ***** Arrumar as datas *****
   addTaskToCalendar(task: Task) {
     addDoc(collection(this.firestore, 'eventos'), {
+      id: task.id,
       end_date: task.endDate?.getTime(),
       event_name: task.task_name,
       start_date: task.startDate?.getTime(),
@@ -140,13 +141,13 @@ export class ProjetosComponent implements OnInit {
   }
 
   async removeTaskFromCalendar(task: Task) {
-    const querySnapshot = await getDocs(collection(this.firestore, 'eventos'));
+    const taskQuery = query(
+      collection(this.firestore, 'eventos'),
+      where('id', '==', task.id)
+    );
+    const querySnapshot = await getDocs(taskQuery);
     querySnapshot.forEach(async (doc) => {
-      const data = doc.data() as Task;
-      console.log(data.id);
-      if (data.id === task.id) {
-        await deleteDoc(doc.ref);
-      }
+      await deleteDoc(doc.ref);
     });
   }
 
@@ -160,7 +161,6 @@ export class ProjetosComponent implements OnInit {
         await updateDoc(doc.ref, { tasks: column.tasks });
       }
     });
-
 
     this.removeTaskFromCalendar(task);
   }

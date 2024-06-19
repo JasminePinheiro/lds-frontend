@@ -6,22 +6,36 @@
     <div class="projeto-component">
         <section class="projeto-nav">
             <div class="esquerda">
-                <h1>Gestão de projetos</h1>
+                <h1>Gestão de Projetos</h1>
             </div>
-            <button (click)="openNewProjectModal()">Novo projeto +</button>
+            <button (click)="openNewProjectModal()">Novo Projeto +</button>
         </section>
 
         <section class="bloco-tarefas-container">
-            <div *ngFor="let column of columns" class="bloco-tarefas">
-                <button (click)="excludeProject(column)">X</button>
-                <h1 class="titulo-bloco">{{ column.name }}</h1>
 
-                <div *ngFor="let task of column.tasks" class="tarefa">
-                    <button (click)="excludeTask(column, task)">X</button>
-                    <p>{{ task.description }} <span (click)="editTask(task)">Editar</span></p>
+            <div *ngFor="let column of columns" class="bloco-tarefas">
+
+                <h1 class="titulo-bloco"><b>{{ column.name }}</b></h1>
+
+                <div class="content-task">
+                    <div *ngFor="let task of column.tasks" class="tarefa">
+                        <p> <b>Título:</b> {{ task.task_name}}</p>
+                        <p> <b>Descrição:</b> {{ task.description }}
+
+                        <div class="footer-tasks">
+                            <button class="edit" (click)="editTask(task)"><i class='bx bx-edit-alt'></i></button>
+                            <button class="delete" (click)="excludeTask(column, task)"><i class='bx bx-trash'></i></button>
+                        </div>
+
+                    </div>
+                    <div class="new-task">
+                        <button (click)="addTask(column)">Nova Tarefa +</button>
+                    </div>
                 </div>
-                <div>
-                    <button (click)="addTask(column)">Nova tarefa +</button>
+
+                <div class="footer-tasks">
+                    <button class="edit"><i class='bx bx-edit-alt'></i></button>
+                    <button class="delete" (click)="excludeProject(column)"><i class='bx bx-trash'></i></button>
                 </div>
             </div>
         </section>
@@ -44,7 +58,7 @@
     <div class="modalEditTask" *ngIf="selectedTask">
         <div class="modal-content">
             <h2>Editar Tarefa</h2>
-            <!-- <form (ngSubmit)="updateTask()">
+            <form (ngSubmit)="updateTask()">
                 <label for="taskDescription">Descrição:</label>
                 <input id="taskDescription" [(ngModel)]="selectedTask.description" name="taskDescription">
                 <label for="taskStartDate">Data de Início:</label>
@@ -52,59 +66,8 @@
                 <label for="taskEndDate">Data de Fim:</label>
                 <input type="date" id="taskEndDate" [(ngModel)]="selectedTask.endDate" name="taskEndDate">
                 <button type="submit">Atualizar</button>
-            </form> -->
+            </form>
             <button (click)="selectedTask = null">Fechar</button>
         </div>
     </div>
 </div>
-
-
-
-
-<!-- ********CÓDIGO FORMATADO ******* -->
-<!-- <div class="projetos-page">
-
-    <div class="cabecalho"> 
-        <h1>Projetos</h1>
-        <span class="notification-user-info">
-            <input type="search" placeholder="Pesquise...">
-            <span class="notificacao"><img src="/assets/icone-notificacao.svg" alt="ícone de notificação"></span>
-            <span class="btn-info-usuario"><img src="/assets/foto-usuario.svg" alt="foto do usuário">Fulano <img src="/assets/expandir-para-baixo.svg" alt="expandir para baixo"></span>
-        </span>
-    </div>
-
-    <div class="projeto-component">
-
-        <section class="projeto-nav">
-            <div class="esquerda">
-                <h1>Gestão de projetos</h1>
-                <p>Quadro <img src="/assets/expandir-para-baixo.svg" alt="expandir para baixo"></p>
-                <p>Filtro <img src="/assets/Filter-icon.svg" alt="icone de filtro"></p>
-            </div>
-            <button>Novo projeto +</button>
-        </section>
-
-        <section class="bloco-tarefas-container">
-                <div class="bloco-tarefas">
-                    <h1 class="titulo-bloco">Backlog</h1>
-                    <div class="tarefa"><p>Nullam id nibh id orci consequat posuere eget sed neque. Ler mais</p></div>
-                </div>
-                <div class="bloco-tarefas">
-                    <h1 class="titulo-bloco">Design</h1>
-                    <div class="tarefa">
-                        <p>Nullam id nibh id orci consequat posuere eget sed neque. Ler mais</p>
-                    </div>
-                    <div class="tarefa">
-                        <p>Nullam id nibh id orci consequat posuere eget sed neque. Ler mais</p>
-                    </div>
-                    <div class="tarefa">
-                        <p>Nullam id nibh id orci consequat posuere eget sed neque. Ler mais</p>
-                    </div>
-                </div>
-                <div class="bloco-tarefas">
-                    <h1 class="titulo-bloco">A fazer</h1>
-                    <div class="tarefa"><p>Nullam id nibh id orci consequat posuere eget sed neque. Ler mais</p></div>
-                </div>
-        </section>
-    </div>
-</div> -->

@@ -1,55 +1,177 @@
 .projetos-page {
-    padding: 20px;
-  }
+  font-size: 62.5%;
+  font-family: var(--fonte-primaria);
+  width: 800px;
+  margin: auto;
 
   .cabecalho {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-size: 2.4rem;
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--cor-font-escura);
+    }
   }
 
   .projeto-component {
-    margin-top: 20px;
+
+    .projeto-nav {
+      padding-top: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--cor-font-clara);
+
+      button {
+        background-color: #0C5663;
+        border: none;
+        padding: 0.5em 0.7em;
+        color: white;
+        font-size: 1.0rem;
+        border-radius: 7px;
+      }
+
+      .esquerda {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 22.0em;
+
+        h1 {
+          font-size: 1.4rem;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .bloco-tarefas-container {
+      width: 800px;
+      display: flex;
+      // overflow-y: scroll;
+      // scrollbar-width: thin;
+      // scrollbar-color: transparent transparent;
+      margin-bottom: 20px;
+      margin-top: 20px;
+
+      .bloco-tarefas {
+        background-color: white;
+        width: 350px;
+        height: auto;
+        border-radius: 12px;
+        margin-right: 2em;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+
+        .titulo-bloco {
+          align-self: self-start;
+          padding: 1em;
+          font-size: 1.0rem;
+          font-weight: 500;
+          color: var(--cor-font-clara);
+        }
+
+        .tarefa {
+          width: 23em;
+          padding:  0.3em 1em;
+          border: 1px solid #6666664e;
+          border-radius: 8px;
+          margin-bottom: 1em;
+
+          p {
+            color: var(--cor-font-clara);
+            font-size: 0.7rem;
+          }
+
+          .footer-tasks {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+  
+            button {
+              background-color: transparent;
+              border: none;
+              margin-top: 0px;
+              margin-right: 0px;
+            }
+  
+            .edit i {
+              font-size: 1rem;
+              color: #17b1cc ;
+            }
+  
+            .delete i {
+              font-size: 1rem;
+              color: var(--bg-color-close);
+            }
+          }
+
+        }
+
+        .footer-tasks {
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          button {
+            background-color: transparent;
+            border: none;
+            margin-top: 13px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+          }
+
+          .edit i {
+            font-size: 1.2rem;
+            color: #17b1cc ;
+          }
+
+          .delete i {
+            font-size: 1.2rem;
+            color: var(--bg-color-close);
+          }
+        }
+
+        .content-task {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .new-task {
+            width: 23em;
+
+            button {
+              background-color: #0c5663ea;
+              color: #fff;
+              border-radius: 4px;
+              border: none;
+              width: 100%;
+              padding: 2px;
+              font-size: 0.6rem;
+            }
+
+          }
+        }
+
+      }
+    }
   }
 
-  .projeto-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .bloco-tarefas-container {
-    display: flex;
-    gap: 20px;
-  }
-
-  .bloco-tarefas {
-    background-color: #f1f1f1;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-
-  .titulo-bloco {
-    margin-bottom: 10px;
-  }
-
-  .tarefa {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 10px;
-  }
-
-  .modalNovoProjeto, .modalEditTask {
+  .modalNovoProjeto,
+  .modalEditTask {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     z-index: 1000;
   }
@@ -64,128 +186,4 @@
     flex-direction: column;
     gap: 10px;
   }
-
-
-
-/// ************ CÓDIGO FORMATADO **************
-// .projetos-page {
-//     font-size: 62.5%;
-//     font-family: var(--fonte-primaria);
-//     width: 800px;
-//     margin: auto;
-// }
-
-
-// // cabecalho
-
-// .cabecalho {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     font-size: 2.4rem;
-// }
-
-// .cabecalho > h1 {
-//     font-size: 1.8rem;
-//     font-weight: 500;
-//     color: var(--cor-font-escura);
-// }
-
-// .notification-user-info {
-//     width: 60%;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-// }
-
-// .notification-user-info > input {
-//     height: 2.0em;
-//     width: 10em;
-//     border-radius: 5px;
-//     border-style: none;
-//     font-size: 1.2rem;
-// }
-
-// .notification-user-info > input:focus {
-//     outline: none;
-// }
-
-// .btn-info-usuario {
-//     display: flex;
-//     align-items: center;
-//     font-size: 1.0rem;
-// }
-
-// // projeto component
-
-// .projeto-nav {
-//     padding-top: 1em;
-//     display: flex;
-//     align-items: center;
-//     justify-content: space-between;
-//     font-size: 1.2rem;
-//     font-weight: 400;
-//     color: var(--cor-font-clara);
-// }
-
-// .projeto-nav>button {
-//     background-color: #0C5663;
-//     border: none;
-//     padding: 0.5em 0.7em;
-//     color: white;
-//     font-size: 1.0rem;
-// }
-
-// .esquerda {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     width: 22.0em;
-// }
-
-// .esquerda>h1 {
-//     font-size: 1.4rem;
-//     font-weight: 500;
-// }
-
-// /*bloco de tarefas*/
-
-// .bloco-tarefas-container {
-//     width: 800px;
-//     display: flex;
-//     overflow-y: scroll;
-//     scrollbar-width: thin;
-//     scrollbar-color: transparent transparent;
-//     margin-bottom: 20px;
-// }
-
-// .bloco-tarefas {
-//     background-color: white;
-//     width: 350px;
-//     height: 450px;
-//     border-radius: 12px;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     margin-right: 2em;
-// }
-
-// .titulo-bloco {
-//     align-self: self-start;
-//     padding: 1em;
-//     font-size: 1.0rem;
-//     font-weight: 500;
-//     color: var(--cor-font-clara);
-// }
-
-// .tarefa {
-//     width: 23em;
-//     padding: 0em 2em;
-//     border: 1px solid #6666664e;
-//     border-radius: 8px;
-//     margin-bottom: 1em;
-// }
-
-// .tarefa>p {
-//     color: var(--cor-font-clara);
-// }
+}
