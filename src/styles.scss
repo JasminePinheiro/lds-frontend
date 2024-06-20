@@ -6,7 +6,6 @@
 :root {
     --color-primary: #0C5663;
     --bg-color: #EBF0F3;
-    --fonte-primaria: "Roboto", sans-serif;
     --cor-fundo: var(--bg-color);
     --cor-font-escura: #25221E;
     --cor-font-clara: #666666;
@@ -22,6 +21,6 @@ body {
     width: 100%;
     height: 100vh;
     overflow: auto;
+    margin: 0;
+    height: 100%;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
