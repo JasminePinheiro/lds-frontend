@@ -8,7 +8,7 @@
             <div class="esquerda">
                 <h1>Gestão de Projetos</h1>
             </div>
-            <button (click)="openNewProjectModal()">Novo Projeto +</button>
+            <button (click)="openNewProjectModal()">+ Adicionar projeto</button>
         </section>
 
         <section class="bloco-tarefas-container">
@@ -26,15 +26,14 @@
                             <button class="edit" (click)="editTask(task)"><i class='bx bx-edit-alt'></i></button>
                             <button class="delete" (click)="excludeTask(column, task)"><i class='bx bx-trash'></i></button>
                         </div>
-
                     </div>
                     <div class="new-task">
-                        <button (click)="addTask(column)">Nova Tarefa +</button>
+                        <button (click)="addTask(column)">+ Adicionar tarefa</button>
                     </div>
                 </div>
 
                 <div class="footer-tasks">
-                    <button class="edit"><i class='bx bx-edit-alt'></i></button>
+                    <button class="edit" (click)="editProject(column)"><i class='bx bx-edit-alt'></i></button>
                     <button class="delete" (click)="excludeProject(column)"><i class='bx bx-trash'></i></button>
                 </div>
             </div>

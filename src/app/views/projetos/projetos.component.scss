@@ -1,6 +1,5 @@
 .projetos-page {
   font-size: 62.5%;
-  font-family: var(--fonte-primaria);
   width: 800px;
   margin: auto;
 
@@ -29,12 +28,16 @@
       color: var(--cor-font-clara);
 
       button {
-        background-color: #0C5663;
+        background-color: var(--color-primary);
         border: none;
         padding: 0.5em 0.7em;
         color: white;
         font-size: 1.0rem;
         border-radius: 7px;
+
+        &:hover {
+          background-color: #094f5b;
+        }
       }
 
       .esquerda {
@@ -53,20 +56,19 @@
     .bloco-tarefas-container {
       width: 800px;
       display: flex;
-      // overflow-y: scroll;
-      // scrollbar-width: thin;
-      // scrollbar-color: transparent transparent;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: #0c56633d #ffffff;
       margin-bottom: 20px;
       margin-top: 20px;
 
       .bloco-tarefas {
         background-color: white;
         width: 350px;
-        height: auto;
         border-radius: 12px;
         margin-right: 2em;
         display: flex;
-        justify-content: space-between;
+        padding: 10px;
         flex-direction: column;
 
         .titulo-bloco {
@@ -79,10 +81,10 @@
 
         .tarefa {
           width: 23em;
-          padding:  0.3em 1em;
-          border: 1px solid #6666664e;
+          padding: 0.3em 1em;
           border-radius: 8px;
           margin-bottom: 1em;
+          box-shadow: 2px 2px 6px 0px #4948485b;
 
           p {
             color: var(--cor-font-clara);
@@ -93,22 +95,30 @@
             display: flex;
             justify-content: flex-end;
             align-items: flex-end;
-  
+
             button {
               background-color: transparent;
               border: none;
               margin-top: 0px;
               margin-right: 0px;
             }
-  
+
             .edit i {
               font-size: 1rem;
-              color: #17b1cc ;
+              color: #17b1cc;
+
+              &:hover {
+                color: #0f798c;
+              }
             }
-  
+
             .delete i {
               font-size: 1rem;
               color: var(--bg-color-close);
+
+              &:hover {
+                color: #570606;
+              }
             }
           }
 
@@ -129,12 +139,20 @@
 
           .edit i {
             font-size: 1.2rem;
-            color: #17b1cc ;
+            color: #17b1cc;
+
+            &:hover {
+              color: #0f798c;
+            }
           }
 
           .delete i {
             font-size: 1.2rem;
             color: var(--bg-color-close);
+
+            &:hover {
+              color: #570606;
+            }
           }
         }
 
@@ -154,6 +172,10 @@
               width: 100%;
               padding: 2px;
               font-size: 0.6rem;
+
+              &:hover {
+                background-color: #094f5b;
+              }
             }
 
           }

@@ -48,7 +48,6 @@ export class ProjetosComponent implements OnInit {
   async initializeKanbanBoard() {
     this.columns = [];
     const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
-    console.log(querySnapshot.docs);
     querySnapshot.forEach((doc) => {
       const data = doc.data() as Column;
       this.columns.push(data);
@@ -165,6 +164,25 @@ export class ProjetosComponent implements OnInit {
     this.removeTaskFromCalendar(task);
   }
 
+
+  async editProject(column: Column) {
+    const newProjectName = prompt('Digite o novo nome do projeto:', column.name);
+
+    this.columns = this.columns.filter(c => c.name !== column.name);
+    const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
+    
+    querySnapshot.forEach(async (doc) => {
+      const data = doc.data() as Column;
+      if (data.name === column.name) {
+        await updateDoc(doc.ref, { name: newProjectName });
+      } else {
+        throw "Não foi possível atualizar o projeto";
+      }
+    });
+
+  }
+
+
   async excludeProject(column: Column) {
     this.columns = this.columns.filter(c => c.name !== column.name);
     const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
@@ -172,9 +190,12 @@ export class ProjetosComponent implements OnInit {
       const resultado = doc.data() as Column;
       if (resultado.name === column.name) {
         await deleteDoc(doc.ref);
+      } else {
+        throw "Não foi possível excluir o projeto";
       }
     });
   }
+
 }
 
 
