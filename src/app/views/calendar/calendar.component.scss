@@ -1,7 +1,9 @@
+/* Estilo do título */
 .title {
   -webkit-text-stroke: #000 1px;
 }
 
+/* Estilo da lista */
 ul {
   margin: 0;
   padding: 0 0 0 1.5em;
@@ -13,15 +15,23 @@ li {
 }
 
 b {
-  /* used for event dates/times */
   margin-right: 3px;
+}
+
+.container-calendar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .demo-app {
   display: flex;
   min-height: 100%;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
+  background-color: #fff;
+  box-shadow: 0px 0px 10px #1212122d;
+  width: 690px;
+  text-align: center;
 }
 
 .demo-app-sidebar {
@@ -41,79 +51,149 @@ b {
 }
 
 .fc {
-  /* the calendar root */
   max-width: 1100px;
   margin: 0 auto;
 }
 
+/* Estilo do corpo */
 .body {
-  background-color: rgba($color: #000, $alpha: 1.0);
+  background-color: rgba(0, 0, 0, 1.0);
 }
 
+/* Estilo do conteúdo dos modais */
 .cadastrar-content {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  padding: 1rem;
+  padding: 1rem; 
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px; 
+  margin: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-  .header-modal {
-    display: flex;
-    justify-content: space-between;
+.modalAddEvent,
+.modalEditEvent {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%; 
+  max-width: 400px; 
+  z-index: 1000;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease forwards;
+}
 
-    h1 {
-      -webkit-text-stroke: 0.5px;
-      color: var(--color-primary);
-    }
+.modalAddEvent.show,
+.modalEditEvent.show {
+  display: block;
+}
 
-    i {
-      font-size: 22px;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
+/* Animação de fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
   }
 
-  .input-calendar {
-    display: flex;
-    flex-direction: column;
-    margin: 6px;
-  }
-
-  label {
-    -webkit-text-stroke: 0.2px;
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
   }
 }
 
+/* Estilo do cabeçalho do modal */
+.header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-modal h1 {
+  -webkit-text-stroke: 0.5px;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.header-modal i {
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.header-modal i:hover {
+  color: #000;
+}
+
+/* Estilo dos inputs do calendário */
+.input-calendar {
+  display: flex;
+  flex-direction: column;
+  margin: 0.2rem 0;
+}
+
+.input-calendar label {
+  -webkit-text-stroke: 0.3px;
+  margin-bottom: 0.2rem;
+}
+
+.input-calendar input,
+.input-calendar textarea {
+  padding: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-calendar input:focus,
+.input-calendar textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+/* Estilo dos botões */
 .btn {
   display: flex;
-  justify-content: right;
-  align-items: flex-end;
-  align-content: flex-end;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
 
-  button {
-    border: none;
-    outline: none;
-    padding: 7px;
-    border-radius: 4px;
-    margin-left: 8px;
-  }
+.btn button {
+  border: none;
+  outline: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
 
-  .close {
-    background-color: #9d0000;
-    color: var(--bg-color);
+.btn .close {
+  background-color: #e74c3c;
+  color: #fff;
+}
 
-    &:hover {
-      background-color: #750000;
-    }
-  }
+.btn .close:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
 
-  .add {
-    background-color: var(--color-primary);
-    color: var(--bg-color);
+.btn .add {
+  background-color: var(--color-primary);
+  color: #fff;
+}
 
-    &:hover {
-      background-color: #0a4751;
-    }
-  }
+.btn .add:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
 }

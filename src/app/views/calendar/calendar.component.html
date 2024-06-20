@@ -1,21 +1,19 @@
 <div class="container">
-    <div class="title">
-        <h1>Calendário</h1>
-    </div>
 
     <!-- Calendário   -->
-    <div class='demo-app'>
-        <div class='demo-app-main'>
-            <full-calendar *ngIf='calendarVisible()' [options]='calendarOptions()'>
-                <ng-template #eventContent let-arg>
-                    <b>{{ arg.timeText }}</b>
-                    <i>{{ arg.event.title }}</i>
-                    <i>{{ arg.event.extendedProps.description }}</i>
-                </ng-template>
-            </full-calendar>
+    <div class="container-calendar">
+        <div class='demo-app'>
+            <div class='demo-app-main'>
+                <full-calendar *ngIf='calendarVisible()' [options]='calendarOptions()'>
+                    <ng-template #eventContent let-arg>
+                        <b>{{ arg.timeText }}</b>
+                        <i>{{ arg.event.title }}</i>
+                        <i>{{ arg.event.extendedProps.description }}</i>
+                    </ng-template>
+                </full-calendar>
+            </div>
         </div>
     </div>
-
 
     <!--Modal de adicionar evento -->
     <div class="modalAddEvent" style="display: none;">

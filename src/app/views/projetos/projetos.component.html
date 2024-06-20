@@ -24,7 +24,8 @@
 
                         <div class="footer-tasks">
                             <button class="edit" (click)="editTask(task)"><i class='bx bx-edit-alt'></i></button>
-                            <button class="delete" (click)="excludeTask(column, task)"><i class='bx bx-trash'></i></button>
+                            <button class="delete" (click)="excludeTask(column, task)"><i
+                                    class='bx bx-trash'></i></button>
                         </div>
                     </div>
                     <div class="new-task">
@@ -41,7 +42,7 @@
     </div>
 
     <!-- Modal de Novo Projeto -->
-    <div class="modalNovoProjeto" *ngIf="isNewProjectModalOpen">
+    <!-- <div class="modalNovoProjeto" *ngIf="isNewProjectModalOpen">
         <div class="modal-content">
             <h2>Novo Projeto</h2>
             <form (ngSubmit)="addProject()">
@@ -49,9 +50,33 @@
                 <input id="projectName" [(ngModel)]="newProjectName" name="projectName">
                 <button type="submit">Adicionar</button>
             </form>
+            
             <button (click)="closeNewProjectModal()">Fechar</button>
         </div>
+    </div> -->
+
+
+    <div class="modalNovoProjeto" *ngIf="isNewProjectModalOpen">
+        <div class="modal-content">
+            <div class="header-modal">
+                <h1>Novo Projeto</h1>
+                <i class="fa fa-times" (click)="closeNewProjectModal()"></i>
+            </div>
+            <form (ngSubmit)="addProject()">
+
+                <div class="input-project">
+                    <label for="projectName">Nome do Projeto:</label>
+                    <input id="projectName" [(ngModel)]="newProjectName" name="projectName">
+                </div>
+
+                <div class="btn">
+                    <button type="button" class="close" (click)="closeNewProjectModal()">Fechar</button>
+                    <button type="submit" class="add">Adicionar</button>
+                </div>
+            </form>
+        </div>
     </div>
+
 
     <!-- Modal de Editar Tarefa -->
     <div class="modalEditTask" *ngIf="selectedTask">
