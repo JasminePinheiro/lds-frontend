@@ -189,8 +189,9 @@
     }
   }
 
-  .modalNovoProjeto,
-  .modalEditTask {
+  // modal de adicionar e editar projetos
+  .modalNewProject,
+  .modalEditProject {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -233,13 +234,13 @@
       flex-direction: column;
       margin: 0.5rem 0;
     }
-    
+
     .input-project label {
       -webkit-text-stroke: 0.3px;
       margin-bottom: 0.5rem;
       font-size: 1rem;
     }
-    
+
     .input-project input,
     .input-project textarea {
       padding: 0.5rem;
@@ -248,20 +249,19 @@
       font-size: 1rem;
       transition: border-color 0.3s ease;
     }
-    
+
     .input-project input:focus,
     .input-project textarea:focus {
       border-color: var(--color-primary);
       outline: none;
     }
-    
-    /* Estilo dos botões */
+
     .btn {
       display: flex;
       justify-content: flex-end;
       margin-top: 1rem;
     }
-    
+
     .btn button {
       border: none;
       outline: none;
@@ -272,26 +272,152 @@
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
-    
+
     .btn .close {
       background-color: #e74c3c;
       color: #fff;
     }
-    
+
     .btn .close:hover {
       background-color: #c0392b;
       transform: scale(1.05);
     }
-    
+
     .btn .add {
       background-color: var(--color-primary);
       color: #fff;
     }
-    
+
     .btn .add:hover {
       background-color: #2980b9;
       transform: scale(1.05);
     }
-    
+
   }
+}
+
+
+/* Modal adicionar e editar tarefas no projeto */
+.modalAddEvent,
+.modalEditEvent {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 400px;
+  z-index: 1000;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease forwards;
+  padding: 1rem;
+}
+
+.modalAddEvent.show,
+.modalEditEvent.show {
+  display: block;
+}
+
+/* Animação de fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Estilo do cabeçalho do modal */
+.header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-modal h1 {
+  -webkit-text-stroke: 0.5px;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.header-modal i {
+  font-size: 22px;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.header-modal i:hover {
+  color: #000;
+}
+
+.input-calendar {
+  display: flex;
+  flex-direction: column;
+  margin: 0.2rem 0;
+}
+
+.input-calendar label {
+  -webkit-text-stroke: 0.3px;
+  margin-bottom: 0.2rem;
+  font-size: 0.9rem;
+}
+
+.input-calendar input,
+.input-calendar textarea {
+  padding: 0.2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-calendar input:focus,
+.input-calendar textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+}
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn button {
+  border: none;
+  outline: none;
+  padding: 0.6rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn .close {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.btn .close:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.btn .add {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn .add:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
 }
