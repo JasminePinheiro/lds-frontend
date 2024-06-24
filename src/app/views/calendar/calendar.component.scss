@@ -55,11 +55,6 @@ b {
   margin: 0 auto;
 }
 
-/* Estilo do corpo */
-.body {
-  background-color: rgba(0, 0, 0, 1.0);
-}
-
 /* Estilo do conteúdo dos modais */
 .cadastrar-content {
   display: flex;
@@ -133,7 +128,6 @@ b {
   color: #000;
 }
 
-/* Estilo dos inputs do calendário */
 .input-calendar {
   display: flex;
   flex-direction: column;
@@ -160,7 +154,6 @@ b {
   outline: none;
 }
 
-/* Estilo dos botões */
 .btn {
   display: flex;
   justify-content: flex-end;
