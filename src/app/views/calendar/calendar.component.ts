@@ -11,7 +11,7 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 
 
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { EventModel } from '../../controllers/models/event-user';
 
 @Component({
@@ -88,7 +88,14 @@ export class CalendarComponent {
 
   // Função que pega os dados do firebase e adiciona no calendário
   async getEventsFromFirebase(): Promise<EventInput[]> {
-    const querySnapshot = await getDocs(collection(this.firestore, 'eventos'));
+    const email = localStorage.getItem('email');
+    if (!email) {
+      return [];
+    }
+
+    const q = query(collection(this.firestore, 'eventos'), where('username', '==', email));
+    const querySnapshot = await getDocs(q);
+
     const events: EventInput[] = [];
     querySnapshot.forEach(doc => {
       const eventData = doc.data() as EventModel;
@@ -266,7 +273,7 @@ export class CalendarComponent {
       const newEndHour = editEndHourInput.value;
       const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
       const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
-  
+
       event.setProp('title', newTitle);
       event.setStart(newStartDateTime);
       event.setEnd(newEndDateTime);

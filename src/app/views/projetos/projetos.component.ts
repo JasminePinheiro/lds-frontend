@@ -10,7 +10,7 @@ import { UserProjectTaskModel } from '../../controllers/models/user-project-task
 @Component({
   selector: 'app-projetos',
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarComponent], 
+  imports: [CommonModule, FormsModule, CalendarComponent],
   templateUrl: './projetos.component.html',
   styleUrls: ['./projetos.component.scss']
 })
@@ -39,8 +39,14 @@ export class ProjetosComponent implements OnInit {
 
   async initializeKanbanBoard() {
     this.columns = [];
-    const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
-    querySnapshot.forEach((doc) => {
+    const username = localStorage.getItem('email');
+    if (!username) {
+      console.error('Usuario não encontrado');
+      return;
+    }
+
+    const projectsQuery = query(collection(this.firestore, 'projects'), where('username', '==', username));
+    const querySnapshot = await getDocs(projectsQuery); querySnapshot.forEach((doc) => {
       const data = doc.data() as UserProjectModel;
       this.columns.push(data);
     });
