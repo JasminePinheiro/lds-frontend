@@ -161,8 +161,6 @@ export class CalendarComponent {
 
       const calendarApi = selectInfo.view.calendar;
 
-      console.log(calendarApi);
-
       calendarApi.unselect(); // clear date selection
 
       if (title) {
@@ -201,7 +199,7 @@ export class CalendarComponent {
         }
 
       } catch (error) {
-        console.log(error);
+        throw error;
       }
       modal.style.display = "none";
     }
@@ -256,23 +254,19 @@ export class CalendarComponent {
 
     editDescriptionEventInput.value! = event.extendedProps['description'] || '';
 
-    // Evento para editar o evento
     const editButton = document.querySelector('.modalEditEvent button[type="submit"]') as HTMLButtonElement;
 
     editButton.onclick = async () => {
       const newTitle = editNameEventInput.value;
       const newDescription = editDescriptionEventInput.value;
       const newStartDate = editStartDateInput.value;
+
       const newEndDate = editEndDateInput.value;
       const newStartHour = editStartHourInput.value;
       const newEndHour = editEndHourInput.value;
-
-
       const newStartDateTime = new Date(`${newStartDate}T${newStartHour}`);
       const newEndDateTime = new Date(`${newEndDate}T${newEndHour}`);
-
-      console.log(newStartDateTime);
-
+  
       event.setProp('title', newTitle);
       event.setStart(newStartDateTime);
       event.setEnd(newEndDateTime);
