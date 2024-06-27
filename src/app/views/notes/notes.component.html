@@ -1,5 +1,5 @@
 <div class="notes-container">
-  <h1>Anotações</h1>
+  <h1>Anotações e Diário</h1>
 
   <div class="new-note">
     <input type="text" [(ngModel)]="newNote.title" placeholder="Título da nota" />
@@ -13,13 +13,15 @@
         <h2>{{ note.title }}</h2>
         <p>{{ note.content }}</p>
         <div class="actions">
-          <button class="edit-btn" (click)="startEditing(note)">Editar</button>
-          <button class="delete-btn" (click)="deleteNote(note)">Excluir</button>
+          <button class="edit-btn" (click)="startEditing(note)"> <i class="fa fa-pencil"></i>Editar</button>
+          <button class="delete-btn" (click)="deleteNote(note)"> <i class="fa fa-trash"></i>Excluir</button>
         </div>
       </div>
       <ng-template #editNoteForm>
-        <input type="text" [(ngModel)]="editingNote!.title" />
-        <textarea [(ngModel)]="editingNote!.content"></textarea>
+        <div class="content-edit">
+          <input type="text" [(ngModel)]="editingNote!.title"/>
+          <textarea [(ngModel)]="editingNote!.content"></textarea>
+        </div>
         <div class="actions">
           <button class="save-btn" (click)="saveEdit()">Salvar</button>
           <button class="cancel-btn" (click)="cancelEdit()">Cancelar</button>
