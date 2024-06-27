@@ -10,9 +10,11 @@ import { CadastroComponent } from './views/cadastro/cadastro.component';
 import { RecuperarSenhaComponent } from './views/recuperar-senha/recuperar-senha.component';
 import { ConfiguracoesPerfilComponent } from './views/configuracoes-perfil/configuracoes-perfil.component';
 import { ProjetosComponent } from './views/projetos/projetos.component';
+import { HomeComponent } from './views/home/home.component';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent, pathMatch: 'full' },
+    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
     { path: 'cadastro', component: CadastroComponent },
     { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
     

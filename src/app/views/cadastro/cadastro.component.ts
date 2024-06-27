@@ -79,7 +79,7 @@ export class CadastroComponent {
     }
 
     redirectToLogin() {
-        this.router.navigate(['']);
+        this.router.navigate(['/login']);
     }
 
 }

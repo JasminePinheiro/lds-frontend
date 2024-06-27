@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.home {
+  width: 100vw;
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+
+  &__header {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: #fff;
+    display: flex;
+    justify-content: flex-start;
+
+    & .home__logo {
+      height: 3rem;
+    }
+  }
+
+  .home_intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #fff;
+    text-align: center;
+
+    & .home__content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      flex-wrap: wrap; /* Permite que os elementos se quebrem em múltiplas linhas */
+
+      & .home__illustration {
+        height: 200px;
+        margin: 1rem;
+      }
+
+      & .home__text {
+        max-width: 400px;
+        text-align: center;
+        margin: 1rem;
+
+        & h1 {
+          font-size: 2.5rem;
+          color: #333;
+        }
+
+        & p {
+          font-size: 1.25rem;
+          color: #666;
+          margin: 1.5rem 0;
+        }
+
+        & .home__start-button {
+          padding: 0.75rem 1.5rem;
+          font-size: 1.25rem;
+          color: #fff;
+          background-color: #004a55;
+          border: none;
+          border-radius: 0.5rem;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: #003a44;
+          }
+        }
+      }
+    }
+  }
+
+  &__features {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: 100vh;
+    background-color: #EBF0F3;
+    text-align: center;
+
+    & .home__feature {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap; /* Permite que os elementos se quebrem em múltiplas linhas */
+
+      & .home__feature-text {
+        flex: 1;
+        min-width: 300px; /* Largura mínima para o texto */
+        padding: 2rem;
+
+        & h2 {
+          font-size: 2rem;
+          color: #000;
+          margin-bottom: 1rem;
+        }
+
+        & p {
+          font-size: 1.25rem;
+          color: #333;
+          text-align: left;
+          line-height: 1.5rem;
+        }
+      }
+
+      & .home__feature-image {
+        flex: 1;
+        min-width: 300px; /* Largura mínima para a imagem */
+        padding: 2rem;
+      }
+    }
+  }
+
+  &__third-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    height: 100vh;
+    background-color: #fff;
+    text-align: center;
+
+    & .home__third-feature {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap; /* Permite que os elementos se quebrem em múltiplas linhas */
+
+      & .home__third-text {
+        flex: 1;
+        min-width: 300px; /* Largura mínima para o texto */
+        padding: 2rem;
+
+        & h2 {
+          font-size: 2rem;
+          color: #000;
+          margin-bottom: 1rem;
+        }
+
+        & p {
+          font-size: 1.25rem;
+          color: #333;
+          text-align: left;
+          line-height: 1.5rem;
+        }
+      }
+
+      & .home__third-image {
+        flex: 1;
+        min-width: 300px; /* Largura mínima para a imagem */
+        padding: 2rem;
+      }
+    }
+  }
+
+  &__fourth-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    height: 100vh; /* Garante que a seção ocupe 100% da altura da tela */
+    background-color: #EBF0F3;
+    text-align: center;
+
+    & h2 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 2rem;
+    }
+
+    & .home__cards {
+      display: flex;
+      flex-wrap: wrap; /* Permite que os elementos se quebrem em múltiplas linhas */
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+
+      & .home__card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        min-width: 150px; /* Largura mínima para o card */
+        margin: 1rem;
+
+        & .home__card-image {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 1rem;
+        }
+
+        & p {
+          font-size: 1.25rem;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    width: 100%;
+    padding: 2rem 1rem;
+    background-color: #004a55;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    & .footer__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & p {
+        margin: 0.5rem 0;
+      }
+
+      & .footer__links {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap; /* Permite que os elementos se quebrem em múltiplas linhas */
+
+        & a {
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.3s;
+
+          &:hover {
+            color: #ccc;
+          }
+        }
+      }
+    }
+  }
+
+  /* Media queries para responsividade */
+  @media (max-width: 768px) {
+    .home_intro,
+    &__features,
+    &__third-section,
+    &__fourth-section {
+      height: auto; /* Ajusta a altura para conteúdo variável em dispositivos menores */
+    }
+
+    &__features .home__feature,
+    &__third-section .home__third-feature,
+    &__fourth-section .home__cards {
+      flex-direction: column; /* Empilha os elementos verticalmente em telas menores */
+    }
+
+    .home_intro .home__illustration,
+    .home_intro .home__text,
+    &__features .home__feature-image,
+    &__features .home__feature-text,
+    &__third-section .home__third-image,
+    &__third-section .home__third-text,
+    &__fourth-section .home__card {
+      width: 100%; /* Ajusta a largura dos elementos para 100% em telas menores */
+      max-width: none; /* Remove a largura máxima */
+      text-align: center; /* Centraliza o texto */
+      margin: 1rem 0; /* Adiciona margem vertical */
+    }
+
+    .home_intro .home__text h1,
+    &__features .home__feature-text h2,
+    &__third-section .home__third-text h2,
+    &__fourth-section h2 {
+      font-size: 2rem; /* Ajusta o tamanho da fonte para caber melhor em telas menores */
+    }
+
+    .home_intro .home__text p,
+    &__features .home__feature-text p,
+    &__third-section .home__third-text p,
+    &__fourth-section .home__card p {
+      font-size: 1rem; /* Ajusta o tamanho da fonte para caber melhor em telas menores */
+    }
+  }
+}
