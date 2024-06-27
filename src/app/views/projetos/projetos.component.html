@@ -22,7 +22,8 @@
                     <div *ngFor="let task of column.tasks" class="tarefa">
                         <p> <b>Título:</b> {{ task.task_name}}</p>
                         <p> <b>Descrição:</b> {{ task.description }}
-
+                        <p> <b>Inicio:</b> {{ task.startDate | date:'dd/MM/yyyy' }}
+                        <p> <b>Fim:</b> {{ task.endDate | date:'dd/MM/yyyy' }}</p>
                         <div class="footer-tasks">
                             <button class="edit" (click)="editTask(column, task)"><i
                                     class='bx bx-edit-alt'></i></button>

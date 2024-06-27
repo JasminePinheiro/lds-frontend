@@ -1,2 +1,64 @@
-<h3>Tela do Dashboard - Em construção</h3>
-<p>Clique no calendário</p>
+<div class="dashboard-container">
+  <div *ngIf="loading" class="loading-indicator">
+    <p>Carregando...</p>
+  </div>
+  
+  <div *ngIf="!loading">
+    <div class="dashboard-header">
+      <h1>Dashboard</h1>
+    </div>
+    <div class="dashboard-content">
+      <div class="stat-box">
+        <h2>Total de Projetos</h2>
+        <p>{{ totalProjects }}</p>
+      </div>
+      <div class="stat-box">
+        <h2>Total de Tarefas</h2>
+        <p>{{ totalTasks }}</p>
+      </div>
+    </div>
+
+    <div class="dashboard-sections">
+      <div class="section upcoming-tasks">
+        <h2>Próximas Tarefas</h2>
+        <ul *ngIf="upcomingTasks.length > 0; else noTasks">
+          <li *ngFor="let task of upcomingTasks">
+            <h3>{{ task.title }}</h3>
+            <p *ngIf="task.dueDate">Prazo: {{ task.dueDate | date }}</p>
+          </li>
+        </ul>
+        <ng-template #noTasks>
+          <p>Nenhuma tarefa futura.</p>
+        </ng-template>
+      </div>
+
+      <div class="section recent-notes">
+        <h2>Notas Recentes</h2>
+        <ul *ngIf="recentNotes.length > 0; else noNotes">
+          <li *ngFor="let note of recentNotes">
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.content | slice:0:100 }}</p> </li>
+        </ul>
+        <ng-template #noNotes>
+          <p>Nenhuma nota recente.</p>
+        </ng-template>
+      </div>
+    </div>
+    
+    <div class="projects-overview">
+      <h2>Visão Geral dos Projetos</h2>
+      <div *ngFor="let project of projects" class="project-summary">
+        <h3>{{ project.name }}</h3>
+        <div class="task-list">
+          <div *ngFor="let task of project.tasks" class="task-item">
+            <h4>{{ task.task_name }}</h4>
+            <p>{{ task.description }}</p>
+            <p>Responsável: {{ task.username }}</p>
+            <p>Início: {{ task.startDate | date:'shortDate' }}</p>
+            <p>Fim: {{ task.endDate | date:'shortDate' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

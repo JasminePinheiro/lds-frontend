@@ -29,11 +29,11 @@ export const navbarData = [
         icon: 'bx bx-cog',
         label: 'Configurações'
     },
-    {
-        routerLink: 'ajuda',
-        icon: 'bx bxs-help-circle',
-        label: 'Ajuda'
-    },
+    // {
+    //     routerLink: 'ajuda',
+    //     icon: 'bx bxs-help-circle',
+    //     label: 'Ajuda'
+    // },
     {
         routerLink: 'sair',
         icon: 'bx bx-exit',

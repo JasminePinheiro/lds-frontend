@@ -11,6 +11,8 @@ import { RecuperarSenhaComponent } from './views/recuperar-senha/recuperar-senha
 import { ConfiguracoesPerfilComponent } from './views/configuracoes-perfil/configuracoes-perfil.component';
 import { ProjetosComponent } from './views/projetos/projetos.component';
 import { HomeComponent } from './views/home/home.component';
+import { TodoComponent } from './views/todo/todo.component';
+import { NotesComponent } from './views/notes/notes.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -27,7 +29,8 @@ export const routes: Routes = [
             { path: 'configuracoes', component: ConfiguracoesPerfilComponent, pathMatch: 'full' },
             { path: 'sair', component: ExitComponent, pathMatch: 'full' },
             { path: 'login', component: LoginComponent, pathMatch: 'full' },
-
+            { path: 'lista-de-tarefas', component: TodoComponent, pathMatch: 'full'},
+            { path: 'anotacao-diario', component: NotesComponent, pathMatch: 'full'}
         ]
     },
 ];
