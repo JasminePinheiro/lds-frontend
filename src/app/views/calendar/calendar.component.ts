@@ -7,25 +7,27 @@ import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
-
-
+import { ToastModule } from 'primeng/toast';
 import bootstrap5Plugin from '@fullcalendar/bootstrap5';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { EventModel } from '../../controllers/models/event-user';
+import { MessageService } from 'primeng/api';
+import { v4 as uuidv4 } from 'uuid'; // Importe a biblioteca uuid
+import { UserProjectModel } from '../../controllers/models/user-project';
+import { UserProjectTaskModel } from '../../controllers/models/user-project-task';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, FullCalendarModule],
+  imports: [CommonModule, RouterOutlet, FullCalendarModule, ToastModule],
+  providers: [MessageService],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
-
 })
 
 export class CalendarComponent {
 
-  constructor(private changeDetector: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: object) { }
+  constructor(private changeDetector: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: object, private messageService: MessageService) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -56,7 +58,7 @@ export class CalendarComponent {
     },
 
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS,
+    initialEvents: undefined,
     weekends: true,
     editable: true,
     selectable: true,
@@ -99,6 +101,7 @@ export class CalendarComponent {
     const events: EventInput[] = [];
     querySnapshot.forEach(doc => {
       const eventData = doc.data() as EventModel;
+      const eventId = eventData.id; // Recupera o ID do evento
 
       const startDate = eventData.start_date instanceof Date
         ? eventData.start_date
@@ -109,7 +112,7 @@ export class CalendarComponent {
         : new Date(eventData.end_date as number);
 
       events.push({
-        id: doc.id,
+        id: eventId, // Usa o ID do evento
         title: eventData.event_name,
         start: startDate,
         end: endDate,
@@ -169,10 +172,11 @@ export class CalendarComponent {
       const calendarApi = selectInfo.view.calendar;
 
       calendarApi.unselect(); // clear date selection
-
+      const eventId = uuidv4();
       if (title) {
+
         calendarApi.addEvent({
-          id: createEventId(),
+          id: eventId,
           title,
           start: startDateTime.toISOString(),
           end: endDateTime.toISOString(),
@@ -185,6 +189,7 @@ export class CalendarComponent {
 
           let email = localStorage.getItem("email");
           const newEvent: EventModel = {
+            id: eventId,
             end_date: endDateTime.getTime(),
             event_name: title,
             start_date: startDateTime.getTime(),
@@ -201,12 +206,16 @@ export class CalendarComponent {
           endHourInput.value = '';
           descriptionInput.value = '';
 
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento adicionado com sucesso' });
+
         } else {
           throw Error("LocalStorage undefined");
+
         }
 
       } catch (error) {
-        throw error;
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Não foi possível adicionar o evento' })
+
       }
       modal.style.display = "none";
     }
@@ -281,19 +290,36 @@ export class CalendarComponent {
 
 
       try {
-        const eventRef = doc(this.firestore, 'eventos', this.selectedEvent!.id); // Referência ao documento
-        await updateDoc(eventRef, {
-          event_name: newTitle,
-          description: newDescription,
-          start_date: newStartDateTime.getTime(),
-          end_date: newEndDateTime.getTime(),
-        });
+        const q = query(collection(this.firestore, 'eventos'), where('id', '==', event.id));
+        const querySnapshot = await getDocs(q);
 
-        console.log('Evento atualizado com sucesso');
+        if (!querySnapshot.empty) {
+          const eventDoc = querySnapshot.docs[0];
+          const eventRef = doc(this.firestore, 'eventos', eventDoc.id);
+
+          await updateDoc(eventRef, {
+            event_name: newTitle,
+            description: newDescription,
+            start_date: newStartDateTime.getTime(),
+            end_date: newEndDateTime.getTime(),
+          });
+
+          this.editTaskInProject(event.id, { // Chamada da função para editar a tarefa no projeto
+            id: event.id, 
+            task_name: newTitle,
+            description: newDescription,
+            endDate: newEndDateTime.getTime(),
+            startDate: newStartDateTime.getTime(),
+            username: localStorage.getItem("email")!,
+          });
+          
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento atualizado com sucesso' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Evento não encontrado' });
+        }
       } catch (error) {
-        console.error('Erro ao atualizar o evento:', error);
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível atualizar o evento' })
       }
-
       modalEditEvent.style.display = "none";
     };
   }
@@ -303,12 +329,28 @@ export class CalendarComponent {
     if (this.selectedEvent) {
       if (confirm(`Tem certeza que deseja excluir o evento '${this.selectedEvent.title}'?`)) {
         try {
-          await deleteDoc(doc(this.firestore, 'eventos', this.selectedEvent.id));
-          this.selectedEvent.remove();
-          this.selectedEvent = null;
 
-          const modal = document.querySelector(".modalEditEvent") as HTMLElement;
-          modal.style.display = "none";
+          const q = query(collection(this.firestore, "eventos"), where('id', '==', this.selectedEvent.id));
+          const querySnapshot = await getDocs(q);
+
+          if (!querySnapshot.empty) {
+            const eventDoc = querySnapshot.docs[0];
+            const eventRef = doc(this.firestore, "eventos", eventDoc.id);
+
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Evento excluído com sucesso.' });
+
+            this.removeTaskFromProject(this.selectedEvent.id)
+            await deleteDoc(eventRef);
+
+            this.selectedEvent.remove();
+            this.selectedEvent = null;
+
+            const modal = document.querySelector(".modalEditEvent") as HTMLElement;
+            modal.style.display = "none";
+
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Evento não encontrado' });
+          }
         } catch (error) {
           console.error("Erro ao remover o evento: ", error);
         }
@@ -316,7 +358,70 @@ export class CalendarComponent {
     }
   }
 
-  // Outras partes do seu código...
+  // Editar tarefa no projeto 
+  async editTaskInProject(taskId: string, taskData: UserProjectTaskModel) {
+    try {
+      const email = localStorage.getItem('email');
+      if (!email) {
+        return;
+      }
+
+      const projectsQuery = query(
+        collection(this.firestore, 'projects'),
+        where('username', '==', email)
+      );
+      const querySnapshot = await getDocs(projectsQuery);
+
+      querySnapshot.forEach(async (projectDoc) => {
+        const projectData = projectDoc.data() as UserProjectModel;
+        const tasks = projectData.tasks;
+
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+          tasks[taskIndex] = taskData; // Atualiza a tarefa na lista
+
+          await updateDoc(projectDoc.ref, { tasks: tasks });
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao editar tarefa no projeto:', error);
+      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível editar a tarefa no projeto.' });
+    }
+
+  }
+
+  // Remover tarefa do projeto 
+  async removeTaskFromProject(taskId: string) {
+    try {
+      const email = localStorage.getItem('email');
+      if (!email) {
+        return;
+      }
+
+      const projectsQuery = query(
+        collection(this.firestore, 'projects'),
+        where('username', '==', email)
+      );
+      const querySnapshot = await getDocs(projectsQuery);
+
+      querySnapshot.forEach(async (projectDoc) => {
+        const projectData = projectDoc.data() as UserProjectModel;
+        const tasks = projectData.tasks;
+
+        // Encontre a tarefa no projeto e remova-a
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+          tasks.splice(taskIndex, 1); // Remove a tarefa da lista
+
+          await updateDoc(projectDoc.ref, { tasks: tasks });
+        }
+      });
+
+    } catch (error) {
+      console.error('Erro ao remover tarefa do projeto:', error);
+    }
+  }
+
   handleEvents(events: EventApi[]) {
     this.currentEvents.set(events);
     this.changeDetector.detectChanges(); // aparece um aviso
