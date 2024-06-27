@@ -6,11 +6,15 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { v4 as uuidv4 } from 'uuid';
 import { UserProjectModel } from '../../controllers/models/user-project';
 import { UserProjectTaskModel } from '../../controllers/models/user-project-task';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-projetos',
   standalone: true,
-  imports: [CommonModule, FormsModule, CalendarComponent],
+  imports: [CommonModule, FormsModule, CalendarComponent, ToastModule],
+  providers: [MessageService],
   templateUrl: './projetos.component.html',
   styleUrls: ['./projetos.component.scss']
 })
@@ -28,7 +32,7 @@ export class ProjetosComponent implements OnInit {
   currentProject: UserProjectModel | null = null;
 
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private messageService: MessageService) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -59,6 +63,7 @@ export class ProjetosComponent implements OnInit {
       await addDoc(collection(this.firestore, 'projects'), { name: this.newProjectName, tasks: [], username: localStorage.getItem("email")! });
       this.newProjectName = '';
       this.closeNewProjectModal();
+      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto adicionado com sucesso' });
     }
 
     this.newProjectName = '';
@@ -82,7 +87,7 @@ export class ProjetosComponent implements OnInit {
       if (data.name === this.currentProject!.name) {
         await updateDoc(doc.ref, { name: newProjectName });
         this.closeEditProjectModal();
-
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto editado com sucesso' });
       }
     });
   }
@@ -90,6 +95,12 @@ export class ProjetosComponent implements OnInit {
 
   // Função de excluir projeto
   async excludeProject(column: UserProjectModel) {
+    const confirmation = confirm('Tem certeza que deseja excluir o projeto?');
+    
+    if (!confirmation) {
+      return;
+    }
+    
     // Excluir todas as tarefas do calendário
     for (const task of column.tasks) {
       await this.removeTaskFromCalendar(task);
@@ -100,9 +111,11 @@ export class ProjetosComponent implements OnInit {
     const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
     querySnapshot.forEach(async (doc) => {
       const resultado = doc.data() as UserProjectModel;
+
       if (resultado.name === column.name) {
         await deleteDoc(doc.ref);
-      }
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto excluído com sucesso' });
+      } 
     });
   }
 
@@ -169,9 +182,11 @@ export class ProjetosComponent implements OnInit {
 
             // Adicionar a tarefa ao calendário
             this.addTaskToCalendar(newTask);
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Tarefa adicionada com sucesso' });
           }
         } else {
           console.error('Projeto não encontrado para a coluna fornecida.');
+          this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível adicionar tarefa' });
         }
         modal.style.display = "none";
       }
@@ -254,6 +269,7 @@ export class ProjetosComponent implements OnInit {
           const data = doc.data() as UserProjectModel;
           if (data.name === this.selectedColumn!.name) {
             await updateDoc(doc.ref, { tasks: this.selectedColumn!.tasks });
+
           }
         });
 
@@ -263,6 +279,8 @@ export class ProjetosComponent implements OnInit {
         this.selectedTask = null;
         this.selectedColumn = null;
         this.closeModalEdit();
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Tarefa editada com sucesso' });
+
       }
     }
   }
@@ -340,6 +358,11 @@ export class ProjetosComponent implements OnInit {
 
   // Função de excluir tarefa do projeto
   async excludeTask(column: UserProjectModel, task: UserProjectTaskModel) {
+    const confirmation = confirm('Tem certeza que deseja excluir a tarefa?');
+    
+    if (!confirmation) {
+      return;
+    }
     column.tasks = column.tasks.filter(t => t.id !== task.id);
 
     const querySnapshot = await getDocs(collection(this.firestore, 'projects'));
@@ -347,6 +370,7 @@ export class ProjetosComponent implements OnInit {
       const data = doc.data() as UserProjectModel;
       if (data.name === column.name) {
         await updateDoc(doc.ref, { tasks: column.tasks });
+        this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Tarefa excluída com sucesso' });
       }
     });
 
