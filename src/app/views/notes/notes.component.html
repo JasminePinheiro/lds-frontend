@@ -1,0 +1,30 @@
+<div class="notes-container">
+  <h1>Anotações</h1>
+
+  <div class="new-note">
+    <input type="text" [(ngModel)]="newNote.title" placeholder="Título da nota" />
+    <textarea [(ngModel)]="newNote.content" placeholder="Digite sua nota aqui..."></textarea>
+    <button (click)="addNote()">Adicionar Nota</button>
+  </div>
+
+  <ul class="notes-list">
+    <li *ngFor="let note of notes">
+      <div *ngIf="editingNote?.uuid !== note.uuid; else editNoteForm">
+        <h2>{{ note.title }}</h2>
+        <p>{{ note.content }}</p>
+        <div class="actions">
+          <button class="edit-btn" (click)="startEditing(note)">Editar</button>
+          <button class="delete-btn" (click)="deleteNote(note)">Excluir</button>
+        </div>
+      </div>
+      <ng-template #editNoteForm>
+        <input type="text" [(ngModel)]="editingNote!.title" />
+        <textarea [(ngModel)]="editingNote!.content"></textarea>
+        <div class="actions">
+          <button class="save-btn" (click)="saveEdit()">Salvar</button>
+          <button class="cancel-btn" (click)="cancelEdit()">Cancelar</button>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+</div>
