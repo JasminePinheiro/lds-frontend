@@ -1,7 +1,5 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { CalendarComponent } from './views/calendar/calendar.component';
-import { NgModel } from '@angular/forms';
-import { SidenavComponent } from './views/sidenav/sidenav.component';
 import { EntradaSistemaComponent } from './views/entrada-sistema/entrada-sistema.component';
 import { LoginComponent } from './views/login/login.component';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
@@ -13,15 +11,16 @@ import { ProjetosComponent } from './views/projetos/projetos.component';
 import { HomeComponent } from './views/home/home.component';
 import { TodoComponent } from './views/todo/todo.component';
 import { NotesComponent } from './views/notes/notes.component';
+import { AuthGuardService } from './controllers/route-guard/auth-guard.service';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    { path: 'cadastro', component: CadastroComponent },
-    { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full' },
+    { path: 'cadastro', component: CadastroComponent},
+    { path: 'recuperar-senha', component: RecuperarSenhaComponent, pathMatch: 'full'},
     
     {
-        path: 'entrada-sistema', component: EntradaSistemaComponent, children: [
+        path: 'entrada-sistema', component: EntradaSistemaComponent, canActivate: [AuthGuardService], children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent, pathMatch: 'full' },
             { path: 'calendario', component: CalendarComponent, pathMatch: 'full' },
@@ -33,4 +32,6 @@ export const routes: Routes = [
             { path: 'anotacao-diario', component: NotesComponent, pathMatch: 'full'}
         ]
     },
+
+    {path: "**", component: HomeComponent, pathMatch: 'full'},
 ];
