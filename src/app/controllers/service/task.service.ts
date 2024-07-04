@@ -26,7 +26,7 @@ export class TaskService {
 
     const q = query(
       collection(this.firestore, 'tasks'),
-      where('id', '==', username),
+      where('email', '==', username),
       where('completed', '==', false), // Somente tarefas não concluídas
       limit(limitTo) 
     );

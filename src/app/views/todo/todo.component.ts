@@ -36,7 +36,7 @@ export class TodoComponent {
 
     this.tasks = []; // Limpa a lista antes de carregar
 
-    const q = query(collection(this.firestore, 'tasks'), where('id', '==', userEmail));
+    const q = query(collection(this.firestore, 'tasks'), where('email', '==', userEmail));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
