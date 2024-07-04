@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map, pipe } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-
   constructor(private _http: HttpClient) { }
 
   login(email: string, password: string): Observable<any> {
@@ -17,7 +16,11 @@ export class LoginService {
 
     const body = JSON.stringify({ email, password });
 
-    return this._http.post<any>('https://lds-backend.vercel.app/api/login', body, { headers });
+    return this._http.post<any>('https://lds-backend.vercel.app/api/login', body, { headers })
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('email');
   }
 
 }
